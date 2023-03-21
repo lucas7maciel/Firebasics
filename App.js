@@ -7,9 +7,9 @@ export default function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<SignIn />}></Route>
-          <Route path="/signUp" element={<SignUp />}></Route>
+          <Route path="/" element={<SignIn /*navigate={navigate}*/ />}></Route>
+          <Route path="/signUp" element={<SignUp /*navigate={navigate}*/ />}></Route>
         </Routes>
-      </Router>
+    </Router>
   );
 }

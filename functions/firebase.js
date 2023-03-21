@@ -17,21 +17,4 @@ const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 const auth = getAuth(app)
 
-function Login() {
-  console.log("Começou")
-  signInWithEmailAndPassword(auth, "Lucas@gmail.com", "123456")
-  .then((userCredential) => {
-    // Signed in
-    const user = userCredential.user;
-    console.log("Logado")
-    console.log(user)
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(`Erro: ${errorMessage}`)
-  });
-  console.log("Acabou")
-}
-
-export {Login, auth}
+export {auth}

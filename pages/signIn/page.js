@@ -1,6 +1,8 @@
 import { Component } from "react"
-import {signUp, Login} from "../../functions/firebase"
-import { changePage } from "../../functions/router-dom"
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+import {auth} from '../../functions/firebase'
+import { Link } from "react-router-dom";
 
 class SignIn extends Component {
   constructor(props) {
@@ -14,24 +16,49 @@ class SignIn extends Component {
   }
 
   updateInput(event, stateKey) {
-    event.preventDefault()
     const newValue = event.target.value
-  
     this.setState({[stateKey]: newValue})
+  }
+
+  changePage(route, state={}) {
+    if (this.navigator) {
+      console.log(this.navigator)
+    }
+  }
+
+  login() {
+    const login = this.state.loginVal
+    const pasw = this.state.paswVal
+
+    signInWithEmailAndPassword(auth, login, pasw)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log("Logado")
+      console.log(user)
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      console.log(`Erro: ${errorMessage}`)
+      this.setState({message: `Erro: ${errorMessage}`})
+    });
   }
 
   render() {
   return (
+    <>
     <div style={{marginLeft: 50}}>
-      <p>Login</p>
+      <h1>Login</h1>
+
       <form>
         <input type="text" placeholder='Login' value={this.state.loginVal} onChange={evt => this.updateInput(evt, "loginVal")}></input><br></br>
         <input type="text" placeholder='Senha' value={this.state.paswVal} onChange={evt => this.updateInput(evt, "paswVal")}></input>
       </form>
-      <button type="button" onClick={/*Login*/console.log("Botao login")}>Entrar</button>
-      <button type="button" onClick={/*changePage("/signUp")*/console.log("Mudar de pagina")}>Sign Up</button>
+  
+      <button type="button" onClick={() => this.login()}>Entrar</button>
+      <Link to={"/signUp"}>Cadastrar</Link>
       <p>{this.state.message}</p>
     </div>
+    </>
     )
   }
 }
