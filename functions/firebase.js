@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBlmj9qe_8oZ9gkcPbL-qkjS6M2XEvX1_w",
@@ -17,13 +17,21 @@ const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 const auth = getAuth(app)
 
-createUserWithEmailAndPassword(auth, email, password)
+function Login() {
+  console.log("Começou")
+  signInWithEmailAndPassword(auth, "Lucas@gmail.com", "123456")
   .then((userCredential) => {
-    console.log("Logado")
+    // Signed in
     const user = userCredential.user;
+    console.log("Logado")
+    console.log(user)
   })
   .catch((error) => {
-    console.log("Erro")
     const errorCode = error.code;
     const errorMessage = error.message;
+    console.log(`Erro: ${errorMessage}`)
   });
+  console.log("Acabou")
+}
+
+export {Login, auth}
