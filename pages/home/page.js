@@ -6,6 +6,10 @@ class Home extends Component {
     super(props)
   }
 
+  componentDidMount() {
+    console.log("Entrou")
+  }
+
   render() {
     return (
       <div>
