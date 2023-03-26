@@ -1,27 +1,24 @@
-import { useState } from "react"
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const RecoverPasw = () => {
-  const auth = getAuth()
+  const [emailVal, setEmailVal] = useState("")
+  const [message, setMessage] = useState("Uma confirmação será enviada para o seu email")
+
   const navigate = useNavigate()
 
-  const [message, setMessage] = useState("Uma confirmação será enviada para o seu email")
-  const [email, setEmail] = useState("")
-
   function updateInput(event, changeState) {
-    const newValue = event.target.value
-    changeState(newValue)
+    changeState(event.target.value)
   }
 
   function sendLink() {
-    if (!emailIsValid(email)) return setMessage("Email inválido")
+    if (!emailIsValid(emailVal)) return setMessage("Email inválido")
 
-    sendPasswordResetEmail(auth, email)
+    sendPasswordResetEmail(getAuth(), emailVal)
     .then(() => {
       console.log("Sucesso")
-
-      setMessage("Email enviado")
+      setMessage("Email enviado, confira na caixa de mensagens")
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -31,11 +28,9 @@ const RecoverPasw = () => {
     });
   }
 
-  function emailIsValid(email) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      return true
-    }
-
+  function emailIsValid() {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailVal)) return true
+  
     return false
   }
 
@@ -44,7 +39,7 @@ const RecoverPasw = () => {
     <div style={{textAlign: 'center'}}>
       <h1>Recuperar senha</h1>
       <form>
-        <input type="text" placeholder="Email" value={email} onChange={evt => updateInput(evt, setEmail)} ></input>
+        <input type="text" placeholder="Email" value={emailVal} onChange={evt => updateInput(evt, setEmailVal)} ></input>
       </form>
       <p>{message}</p>
       <div style={{display:"flex", flexDirection:'column'}}>
