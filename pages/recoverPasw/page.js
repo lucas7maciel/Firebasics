@@ -13,13 +13,11 @@ const RecoverPasw = () => {
   }
 
   function sendLink() {
-    if (!emailIsValid(emailVal)) return setMessage("Email inválido")
+    if (!emailVal) return setMessage("Campo vazio")
+    else if (!emailIsValid(emailVal)) return setMessage("Email inválido")
 
     sendPasswordResetEmail(getAuth(), emailVal)
-    .then(() => {
-      console.log("Sucesso")
-      setMessage("Email enviado, confira na caixa de mensagens")
-    })
+    .then(() => setMessage("Email enviado, confira na caixa de mensagens"))
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;

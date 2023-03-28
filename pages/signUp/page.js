@@ -4,12 +4,15 @@ import {createUserWithEmailAndPassword} from "firebase/auth";
 import {auth} from '../../functions/firebase'
 import { useNavigate } from 'react-router-dom';
 
+import StepsContainer from './stepsContainer';
+
 const SignUp = () => {
   //input value states
   const [emailVal, setEmailVal] = useState("")
   const [paswVal, setPaswVal] = useState("")
   const [confPaswVal, setConfPaswVal] = useState("")
 
+  const [currStep, setCurrStep] = useState(0)
   const [message, setMessage] = useState("Digite aqui os seus dados")
 
   const navigate = useNavigate()
@@ -65,6 +68,11 @@ const SignUp = () => {
         <button type="button" onClick={() => navigate("/")}>Voltar</button>
         <p>{message}</p>
       </div>
+
+      <h2>Teste dos steps</h2>
+      <StepsContainer currStep={currStep} />
+      <button type="button" onClick={() => setCurrStep(currStep - 1)}>Voltar</button>
+      <button type="button" onClick={() => setCurrStep(currStep + 1)}>Next</button>
     </div>
     </div>
   )
