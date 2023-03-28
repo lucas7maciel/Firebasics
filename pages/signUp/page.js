@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {createUserWithEmailAndPassword} from "firebase/auth";
 
 import {auth} from '../../functions/firebase'
@@ -16,6 +16,8 @@ const SignUp = () => {
   const [message, setMessage] = useState("Digite aqui os seus dados")
 
   const navigate = useNavigate()
+
+  useEffect(() => console.log("MENSAGEM MUDOU UGA BUGA"), [message])
 
   function updateInput(event, changeState) {
     const newValue = event.target.value
@@ -55,25 +57,10 @@ const SignUp = () => {
   }
 
   return (
-    <div style={{margin: "0 auto"}}>
-    <div style={{marginLeft: 50, textAlign: 'center'}}>
-      <h1>Cadastro</h1>
-      <form>
-        <input type="text" placeholder='Login' value={emailVal} onChange={evt => updateInput(evt, setEmailVal)}></input><br></br>
-        <input type="text" placeholder='Senha' value={paswVal} onChange={evt => updateInput(evt, setPaswVal)}></input><br></br>
-        <input type="text" placeholder='Confirmar senha' value={confPaswVal} onChange={evt => updateInput(evt, setConfPaswVal)}></input>
-      </form>
-      <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center'}}>
-        <button type="button" onClick={() => signUp()}>Cadastrar</button>
-        <button type="button" onClick={() => navigate("/")}>Voltar</button>
-        <p>{message}</p>
-      </div>
-
+    <div>
       <h2>Teste dos steps</h2>
-      <StepsContainer currStep={currStep} />
-      <button type="button" onClick={() => setCurrStep(currStep - 1)}>Voltar</button>
-      <button type="button" onClick={() => setCurrStep(currStep + 1)}>Next</button>
-    </div>
+      <StepsContainer currStep={currStep} changeMessage={setMessage} />
+      <p>{message}</p>
     </div>
   )
 }

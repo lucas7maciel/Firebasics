@@ -1,15 +1,15 @@
 import { useState } from "react"
 
-const PasswordInput = () => {
-  const [val, setVal] = useState("")
+const PasswordInput = (props) => {
   const [visible, setVisible] = useState(false)
 
   return (
     <div>
       <input 
       type={visible ? "password" : "text"} 
-      value={val} 
-      onChange={evt => setVal(evt.target.value)}
+      placeholder={props.placeholder || null}
+      value={props.value || ""} 
+      onChange={props.changeValue ? evt => props.changeValue(evt.target.value) : null}
       />
       
       <img 

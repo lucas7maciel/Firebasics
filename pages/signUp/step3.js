@@ -2,7 +2,7 @@
 const Step3 = () => {
   return (
     <div>
-      <h2>Step 3</h2>
+      <h2>Usuário criado</h2>
     </div>
   )
 }
