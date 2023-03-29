@@ -75,7 +75,7 @@ const Profile = () => {
     })
   }
 
-  async function updateProfile(displayName, photoUrl) {
+  function updateProfile(displayName, photoUrl) {
     if (displayName == "") {
       displayName = newNameVal
     }

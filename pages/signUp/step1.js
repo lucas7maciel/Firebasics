@@ -2,27 +2,33 @@ import { useState, forwardRef, useImperativeHandle } from "react"
 import PasswordInput from "../../components/passwordInput"
 
 const Step1 = forwardRef((props, ref) => {
-  const [displayName, setDisplayName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confPassword, setConfPassword] = useState("")
+  const [displayName, setDisplayName] = useState("Luquinhas")
+  const [email, setEmail] = useState("a@gmail.com")
+  const [password, setPassword] = useState("123123123")
+  const [confPassword, setConfPassword] = useState("123123123")
 
   useImperativeHandle(ref, () => ({
+    verify: verify,
     getData: getData
   }));
 
   function verify() {
     if (!emailIsValid(email)) {
-      return console.log("Email inválido")
+      console.log("Email inválido")
+      return false
     }
 
     if (password.length < 6 || password.length > 12) {
-      return console.log("Senha deve ter de 6 a 12 caracteres")
+      console.log("Senha deve ter de 6 a 12 caracteres")
+      return false
     }
 
     if (password != confPassword) {
-      return console.log("Senhas não conferem")
+      console.log("Senhas não conferem")
+      return false
     }
+
+    return true
   }
 
   function getData() {
