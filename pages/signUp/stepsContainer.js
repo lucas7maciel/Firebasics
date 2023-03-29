@@ -1,17 +1,20 @@
 
 import { useState, useRef, useEffect } from "react"
-import { getAuth, updateProfile,createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
+import { ref, uploadBytes, getDownloadURL} from "firebase/storage"
+
+import { storage } from "../../functions/firebase"
 
 import Step1 from "./step1"
 import Step2 from "./step2"
 import Step3 from "./step3"
 
 const StepsContainer = props => {
-  const step1Ref = useRef()
-  const step2Ref = useRef()
-
   const [currStep, setCurrStep] = useState(0)
   const [userData, setUserData] = useState({})
+
+  const step1Ref = useRef()
+  const step2Ref = useRef()
 
   const steps = [
     <Step1 ref={step1Ref} />,
@@ -49,9 +52,18 @@ const StepsContainer = props => {
 
   function createUser() {
     createUserWithEmailAndPassword(getAuth(), userData.email, userData.password)
-    .then(userCredential => {
+    .then(async userCredential => {
       props.changeMessage("Usuário criado, atualizando dados")
+      console.log("Usuário criado, atualizando dados")
+
+      if (!userData.profilePic && !userData.displayName) return
+
+      if (userData.profilePic) {
+        await uploadProfilePic()
+      }
+
       updateData(userCredential.user)
+      
     })
     .catch((error) => {
       props.changeMessage("Erro ao criar usuário")
@@ -63,12 +75,29 @@ const StepsContainer = props => {
   }
 
   function updateData(user) {
-    updateProfile(user, {displayName: userData.displayName, photoURL: ""})
+    updateProfile(user, {displayName: userData.displayName || "", photoURL: userData.profilePic || ""})
     .then(() => {
-      console.log("Só sucesso meu patrão")
+      props.changeMessage("Dados atualizados")
+      console.log("Dados atualizados")
+      updateProfilePic()
     })
     .catch(error => {
-      console.log("Só erro meu patrão")
+      props.changeMessage("Erro ao atualizar dados")
+      console.log("Erro ao atualizar dados")
+      console.log(error.message)
+    })
+  }
+
+  async function uploadProfilePic() {
+    const imageRef = ref(storage, `images/profile_pictures/teste`)
+
+    uploadBytes(imageRef, userData.profilePic)
+    .then(() => {
+      userData.profilePic = getDownloadURL(imageRef)
+    })
+    .catch(error => {
+      props.changeMessage("Imagem não uploadada")
+      console.log("Foto não mudada")
       console.log(error.message)
     })
   }

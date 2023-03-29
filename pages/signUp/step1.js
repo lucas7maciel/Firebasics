@@ -2,6 +2,7 @@ import { useState, forwardRef, useImperativeHandle } from "react"
 import PasswordInput from "../../components/passwordInput"
 
 const Step1 = forwardRef((props, ref) => {
+  const [profilePic, setProfilePic] = useState("")
   const [displayName, setDisplayName] = useState("Luquinhas")
   const [email, setEmail] = useState("a@gmail.com")
   const [password, setPassword] = useState("123123123")
@@ -35,7 +36,8 @@ const Step1 = forwardRef((props, ref) => {
     return {
       email: email,
       password: password,
-      displayName: displayName
+      displayName: displayName,
+      profilePic: profilePic
     }
   }
 
@@ -56,6 +58,10 @@ const Step1 = forwardRef((props, ref) => {
       src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
       alt="Foto de perfil"
       />
+
+      <div style={{border:'solid'}}>
+        <input type="file" onChange={evt => setProfilePic(evt.target.files[0])} />
+      </div>
 
       <form style={{display: 'flex', flexDirection: 'column'}}>
         <input type="text" placeholder="Display Name" value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
