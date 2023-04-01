@@ -8,7 +8,7 @@ const PasswordInput = (props) => {
       <input 
       type={visible ? "password" : "text"} 
       placeholder={props.placeholder || null}
-      value={props.value || ""} 
+      value={props.Value || ""} 
       onChange={props.changeValue ? evt => props.changeValue(evt.target.value) : null}
       />
       

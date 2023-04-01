@@ -66,8 +66,8 @@ const Step1 = forwardRef((props, ref) => {
       <form style={{display: 'flex', flexDirection: 'column'}}>
         <input type="text" placeholder="Display Name" value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
         <input type="text" placeholder="Email" value={email} onChange={evt => setEmail(evt.target.value)} />
-        <PasswordInput placeholder="Password" value={password} changeValue={setPassword} />
-        <PasswordInput placeholder="Confirm password" value={confPassword} changeValue={setConfPassword} />
+        <PasswordInput placeholder="Password" Value={password} changeValue={setPassword} />
+        <PasswordInput placeholder="Confirm password" Value={confPassword} changeValue={setConfPassword} />
       </form>
     </div>
   )
