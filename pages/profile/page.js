@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
-import { getAuth, sendEmailVerification, updatePassword, updateProfile } from "firebase/auth";
+import { getAuth, sendEmailVerification, updateProfile, updatePassword } from "firebase/auth";
+import { ref as storageRef,getStorage, listAll, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
-import VerifyEmail from "../../components/verifyEmail";
+import VerifyEmail from "./verifyEmail";
+import WindowPopUp from "../../components/windowPopUp";
 
 const Profile = () => {
   //input values
   const [newNameVal, setNewNameVal] = useState("")
   const [newPaswVal, setNewPaswVal] = useState("")
-  const [newPhotoVal, setNewPhotoVal] = useState("")
+  const [newPicture, setNewPicture] = useState("")
+
+  //window pop up
+  const [windowContent, setWindowContent] = useState(<p>Eae</p>)
+  const [windowActive, setWindowActive] = useState(true)
 
   const [user, setUser] = useState(getAuth().currentUser)
 
@@ -20,7 +26,7 @@ const Profile = () => {
   const [email, setEmail] = useState("")
   const [displayName, setDisplayName] = useState("")
   const [photoUrl, setPhotoUrl] = useState("")
-  const [emailVerified, setEmailVerified] = useState(true)
+  const [emailVerified, setEmailVerified] = useState(false)
   const [message, setMessage] = useState("")
 
   const navigate = useNavigate()
@@ -46,8 +52,9 @@ const Profile = () => {
     setInfoLoaded(true)
   }
 
-  function updateInput(event, changeState) {
-    changeState(event.target.value)
+  function setWindowPopUp(content, changeState) {
+    //setWindowContent(() => content)
+    setWindowActive(active => !active)
   }
 
   function verifyEmail() {
@@ -59,6 +66,41 @@ const Profile = () => {
       console.log("Erro")
       console.log(erro)
     })
+  }
+
+  async function updatePicture() {
+    if (!newPicture) return console.log("Sem imagem")
+
+    //checa quantas imagens tem
+    const folderRef = storageRef(getStorage(), `users/${email}/profile_pictures`)
+    let newIndex
+
+    await listAll(folderRef)
+      .then(res => newIndex = res.items.length + 1)
+      .catch(error => console.log(error))
+    
+    //sobe a ultima com uma quantidade a mais
+    if (!newIndex) return
+
+    let newPhotoURL
+    const ref = storageRef(getStorage(), `users/${email}/profile_pictures/${newIndex}`)
+
+    await uploadBytes(ref, newPicture)
+      .catch(error => console.log(`Erro ao uploadar\n${error}`))
+
+    //pega o link de download
+    await getDownloadURL(ref)
+      .then(url => newPhotoURL = url)
+      .catch(error => console.log(`Erro ao pegar imagem nova\n${error}`))
+
+    //altera os dados
+    if (!newPhotoURL) {
+      return console.log("Deu erro")
+    }
+
+    updateProfile(getAuth().currentUser, {photoURL: newPhotoURL})
+      .then(() => setPhotoUrl(newPhotoURL))
+      .catch(error => console.log(`Erro ao alterar imagem\n${error}`))
   }
 
   function updatePasw() {
@@ -75,27 +117,6 @@ const Profile = () => {
     })
   }
 
-  function updateProfile(displayName, photoUrl) {
-    if (displayName == "") {
-      displayName = newNameVal
-    }
-
-    if (photoUrl == "") {
-      photoUrl = newPhotoVal
-    }
-
-    updateProfile(getAuth().currentUser, {displayName: displayName, photoURL: photoUrl})
-    .then(() => {
-      console.log("Sucesso")
-      setMessage("Dados alterados com sucesso")
-    })
-    .catch(error => {
-      console.log("Erro")
-      console.log(error)
-      setMessage("Erro ao alterar dados")
-    })
-  }
-
   function signOut() {
     window.localStorage.removeItem("keepLogged")
     navigate("/")
@@ -104,45 +125,40 @@ const Profile = () => {
   return (
     <div style={{margin: '0 auto'}}>
       <div>
+        <button type="button" onClick={() => setWindowPopUp()}>Button</button>
         <button 
         style={{position: 'absolute', right: 10, top: 30}}
-        type="button" 
+        type="button"
         onClick={() => signOut()}>Voltar</button>
 
         <div style={{margin: "0 auto", textAlign: 'center'}}>
           <h1>Página do perfil</h1>
           <img src={photoUrl} alt="Profile picture" style={{maxHeight: 250, maxWidth: 250}}></img><br></br>
+          <input type="file" onChange={evt => setNewPicture(evt.target.files[0])} />
+          <button type="button" onClick={() => updatePicture()}>Mudar imagem</button>
           <h2>{email}</h2>
           <h3>{displayName}</h3>
-          <VerifyEmail verified={emailVerified} />
-          <button type="text" disabled={emailVerified} onClick={() => verifyEmail()}>Verificar email</button>
+          <VerifyEmail verified={emailVerified} verifyFunc={verifyEmail} />
         </div>
 
         <hr style={{marginTop: 15}}></hr>
 
         <div style={{display: 'flex'}}>
           <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}>
-            <h2>Alterar imagem</h2>
-            <input type="text" placeholder="Url da imagem" value={newPhotoVal} onChange={evt => updateInput(evt, setNewPhotoVal)}></input>
-            <button type="button" onClick={() => updateProfile("", newPhotoVal)}>Mudar imagem</button>
-          </div>
-          <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}>
             <h2>Alterar nome</h2>
-            <input type="text" value={newNameVal} onChange={evt => updateInput(evt, setNewNameVal)}></input>
-            <button type="button" onClick={() => updateProfile(newNameVal, "")}>Alterar nome</button>
-          </div>
-          <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}>
-            <h2>Email verificado</h2>
-            <h3>{emailVerified ? "Sim" : "Não"}</h3>
+            <input type="text" value={newNameVal} onChange={evt => setNewNameVal(evt.target.value)}></input>
+            <button type="button" onClick={() => console.log("Botar função de novo")}>Alterar nome</button>
           </div>
           <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}> 
             <h3>Alterar senha</h3>
-            <input type="text" value={newPaswVal} onChange={evt => updateInput(evt, setNewPaswVal)}></input><br></br>
+            <input type="text" value={newPaswVal} onChange={evt => setNewPaswVal(evt.target.value)}></input><br></br>
             <button type="button" onClick={() => updatePasw()}>Alterar</button>
           </div>
         </div>
 
         <p style={{textAlign: 'center', fontWeight: 'bold'}}>{message}</p>
+
+        <WindowPopUp content={windowContent} active={windowActive} changeActive={setWindowActive} />
       </div>
       </div>
   )

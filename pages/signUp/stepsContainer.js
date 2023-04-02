@@ -1,6 +1,6 @@
 
 import { useState, useRef, useEffect } from "react"
-import { getAuth, updateProfile, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth"
+import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
 import { ref, uploadBytes, getDownloadURL} from "firebase/storage"
 
 import { storage } from "../../functions/firebase"
@@ -29,6 +29,7 @@ const StepsContainer = props => {
   }
 
   useEffect(() => {
+    //hook used to create the user and set their data
     if (currStep < Object.keys(steps).length) return
     
     createUserWithEmailAndPassword(getAuth(), userData.email, userData.password)
@@ -97,7 +98,7 @@ const StepsContainer = props => {
 
   async function getProfilePic() {
     let imageUrl
-    const imageRef = ref(storage, `images/profile_pictures/${userData.email}`)
+    const imageRef = ref(storage, `users/${userData.email}/profile_pictures/1`)
 
     await uploadBytes(imageRef, userData.profilePic)
     .then(async () => {
