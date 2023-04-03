@@ -20,11 +20,6 @@ const SignIn = () => {
     }
   }, [])
 
-  function updateInput(event, changeState) {
-    const newValue = event.target.value
-    changeState(newValue)
-  }
-
   function login() {
     if (loginVal == "" || paswVal == "") {
       return setMessage("Campo vazio")
@@ -67,9 +62,9 @@ const SignIn = () => {
         type="text" 
         placeholder='Login' 
         value={loginVal} 
-        onChange={evt => updateInput(evt, setLoginVal)}
+        onChange={evt => setLoginVal(evt.target.value)}
         /> <br></br>
-        <input type="text" placeholder='Senha' value={paswVal} onChange={evt => updateInput(evt, setPaswVal)}></input><br></br>
+        <input type="text" placeholder='Senha' value={paswVal} onChange={evt => setPaswVal(evt.target.value)}></input><br></br>
         <PasswordInput />
         <input type="checkbox" name="keepUser" checked={keepLogged} onChange={evt => setKeepLogged(!keepLogged)}></input>
         <label htmlFor="keepUser">Keep me logged</label>

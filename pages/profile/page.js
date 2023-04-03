@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getAuth, sendEmailVerification, updateProfile, updatePassword } from "firebase/auth";
 import { ref as storageRef,getStorage, listAll, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,9 @@ const Profile = () => {
   const [newPicture, setNewPicture] = useState("")
 
   //window pop up
-  const [windowContent, setWindowContent] = useState(<p>Eae</p>)
+  const [windowContent, setWindowContent] = useState(<h1>Teste do window</h1>)
   const [windowActive, setWindowActive] = useState(true)
+  const windowRef = useRef()
 
   const [user, setUser] = useState(getAuth().currentUser)
 
@@ -53,8 +54,7 @@ const Profile = () => {
   }
 
   function setWindowPopUp(content, changeState) {
-    //setWindowContent(() => content)
-    setWindowActive(active => !active)
+    setWindowActive(!windowActive)
   }
 
   function verifyEmail() {
@@ -123,13 +123,15 @@ const Profile = () => {
   }
 
   return (
-    <div style={{margin: '0 auto'}}>
-      <div>
-        <button type="button" onClick={() => setWindowPopUp()}>Button</button>
+    <div style={{margin: '0 auto', border: 'solid green', width: '100%'}}>
+      <div style={{position: 'flex', flexDirection: 'column'}}>
         <button 
         style={{position: 'absolute', right: 10, top: 30}}
         type="button"
         onClick={() => signOut()}>Voltar</button>
+
+        <button type="button" onClick={() => windowRef.current.open()}>Mudar popUp</button>
+        <WindowPopUp ref={windowRef} content={windowContent} />
 
         <div style={{margin: "0 auto", textAlign: 'center'}}>
           <h1>Página do perfil</h1>
@@ -157,9 +159,7 @@ const Profile = () => {
         </div>
 
         <p style={{textAlign: 'center', fontWeight: 'bold'}}>{message}</p>
-
-        <WindowPopUp content={windowContent} active={windowActive} changeActive={setWindowActive} />
-      </div>
+        </div>
       </div>
   )
 }
