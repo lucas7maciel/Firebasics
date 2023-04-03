@@ -1,18 +1,12 @@
-import { useState } from "react"
 
 const WindowPopUp = (props) => {
-  const [active, setActive] = useState(true)
-
-  function open() {
-    setActive(true)
-  }
 
   function close() {
-    setActive(false)
+    props.setActive(false)
   }
 
-  return active ? (
-    <div style={windowStyle}>
+  return props.active ? (
+    <div style={windowStyle} >
       <div style={contentStyle}>
         <button type="button" onClick={() => close()}>Fechar</button>
         {props.content}
