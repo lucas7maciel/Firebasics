@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { getStorage, ref as storageRef, listAll, uploadBytes, getDownloadURL } from "firebase/storage"
 import { updateProfile, getAuth } from "firebase/auth"
+
+import editIcon from "../../assets/editIcon.png"
 
 export const AlterPicture = (props) => {
   const [newPicture, setNewPicture] = useState(props.pictureUrl)
   const [message, setMessage] = useState("Mensagem")
+
+  const [hoveringImage, setHoveringImage] = useState(false)
+
+  const filePicker = useRef()
 
   async function updatePicture() {
     if (!newPicture) return console.log("Sem imagem")
@@ -57,18 +63,43 @@ export const AlterPicture = (props) => {
   return (
     <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center', margin: '0 auto'}}>
       <div>
-        <img 
-          src={typeof(newPicture) === "object" ? 
-            URL.createObjectURL(newPicture) : newPicture} 
-          style={{maxHeight: 150, maxWidth: 150}} 
-        />
+        <div 
+          style={{display: "grid", height: 150, width: 150, margin: "0 auto"}}
+          onMouseEnter={() => setHoveringImage(true)} 
+          onMouseLeave={() => setHoveringImage(false)}>
+          <img 
+            style={gridOverlay}
+            src={typeof(newPicture) === "object" ? URL.createObjectURL(newPicture) : newPicture} 
+          />
+
+          <div
+            style={hoveringImage ? {...gridOverlay, ...{backgroundColor: "rgba(0,0,0,0.2)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}} : {display: "none"}}
+            onClick={() => filePicker.current?.click()}>
+
+            <img 
+              style={{width:70, height: 70}}
+              src={editIcon}
+            />
+          </div>
+
+          <input style={{display: "none"}} type="file" ref={filePicker} onChange={evt => setNewPicture(evt.target.files[0])} />
+        </div>
       </div>
-      <input type="file" onChange={evt => {setNewPicture(evt.target.files[0]);console.log(typeof(evt.target.files[0]))}} />
       <RecentPictures email={props.email} changeState={setNewPicture} />
       <button type="button" onClick={() => updatePicture()}>Alterar imagem</button>
       <p>{message}</p>
     </div>
   )
+}
+
+const gridOverlay = {
+  gridRowStart: 1,
+  gridColumnStart: 1,
+  placeSelf: "center",
+
+  objectFit: "cover", 
+  height: 150, 
+  width: 150
 }
 
 const RecentPictures = (props) => {
@@ -94,25 +125,30 @@ const RecentPictures = (props) => {
       })
   }, [])
 
-  return (
+  return urlList.length > 0 ? (
     <div>
       <h3>Recent pictures</h3>
-      <div style={{display:"flex", marginLeft: 15, marginRight: 15}}>
+      <div style={{display:"flex", alignItems: "center"}}>
         {urlList.map((url, index) => {
           return <ImageExample imageURL={url} changeState={props.changeState} key={index} />}
         )}
       </div>
+      <hr />
     </div>
-  )
+  ) : null
 }
 
 const ImageExample = (props) => {
   return (
-    <div onClick={() => props.changeState(props.imageURL)}>
+    <div style={{flex: 1, marginRight: 5, marginLeft: 5}} onClick={() => props.changeState(props.imageURL)}>
       <img 
         src={props.imageURL} 
         alt="Example image" 
-        style={{maxHeight: 90, maxWidth: 90}} />
+        style={{
+          objectFit: "cover",
+          width: 70,
+          height: 70
+        }} />
     </div>
   )
 }

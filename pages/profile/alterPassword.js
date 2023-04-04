@@ -10,26 +10,32 @@ export const AlterPassword = () => {
   const [confNewPassw, setConfNewPassw] = useState("")
 
   async function updatePassw() {
-    //if (!checkConditions) return
     const auth = getAuth()
-    const credential = EmailAuthProvider.credential(auth.currentUser.email, oldPassw)
 
-    reauthenticateWithCredential(auth.currentUser, credential)
-      .then(() => {
+    if (!checkConditions(auth.currentUser.email)) return
 
-        updatePassword(auth.currentUser, newPassw)
-          .then(() => setMessage("Senha alterada com sucesso"))
-          .catch(() => setMessage("Erro ao alterar a senha"))
-      })
+    updatePassword(auth.currentUser, newPassw)
+      .then(() => setMessage("Senha alterada com sucesso"))
+      .catch(() => setMessage("Erro ao alterar a senha"))     
+  }
+
+  async function checkConditions(email) {
+    //ver se senha antiga confere
+    const credential = EmailAuthProvider.credential(email, oldPassw)
+    let correctPassw = false
+
+    await reauthenticateWithCredential(auth.currentUser, credential)
+      .then(() => correctPassw = true)
       .catch(error => {
         console.log(error)
         setMessage("A senha informada não confere ou houve erro")
-      })        
-  }
+      })   
 
-  function checkConditions() {
-    //ver se senha antiga confere
-    if (newPassw !== confNewPassw) {
+    if (!correctPassw) {
+      setMessage("Senha incorreta")
+      return false
+    }
+    else if (newPassw !== confNewPassw) {
       setMessage("Senhas não conferem")
       return false
     } else if (!newPassw) {
@@ -39,7 +45,7 @@ export const AlterPassword = () => {
       setMessage("A senha deve ter ao menos 6 caracteres")
       return false
     }
-
+    
     return true
   }
 

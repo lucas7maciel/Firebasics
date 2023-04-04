@@ -1,3 +1,4 @@
+import closeIcon from "../assets/closeIcon.png"
 
 const WindowPopUp = (props) => {
 
@@ -8,7 +9,12 @@ const WindowPopUp = (props) => {
   return props.active ? (
     <div style={windowStyle} >
       <div style={contentStyle}>
-        <button type="button" onClick={() => close()}>Fechar</button>
+        <img
+          src={closeIcon}
+          style={buttonStyle}
+          onClick={() => props.setActive(false)}
+         />
+
         {props.content}
     </div>
     </div>
@@ -35,12 +41,23 @@ const contentStyle = {
   transform: 'translate(-50%, -50%)',
   zIndex: 4,
 
+  display: 'flex',
+  flexDirection: 'column',
+
+  alignItems: 'flex-end',
+
   opacity: '100%',
-  backgroundColor: 'green'
+  backgroundColor: 'white',
+  borderRadius: 10,
+  padding: 35
 }
 
 const buttonStyle = {
-  textAlign: 'right'
+  textAlign: 'right',
+  cursor: "pointer",
+  marginBottom: 25,
+  maxHeight: 20,
+  maxWidth: 20
 }
 
 
