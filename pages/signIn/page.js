@@ -10,7 +10,7 @@ const SignIn = () => {
   const [paswVal, setPaswVal] = useState("123456")
 
   const [keepLogged, setKeepLogged] = useState(true)
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("Seja bem vindo")
 
   const navigate = useNavigate()
 
@@ -54,31 +54,72 @@ const SignIn = () => {
   }
 
   return (
-    <div style={{textAlign: 'center', position: 'absolute', top:0,bottom:0, left:0, right:0}}>
-      <img style={{maxHeight: 175}} src="https://www.tailorbrands.com/wp-content/uploads/2020/07/mcdonalds-logo.jpg" alt="Logo"></img>
+    <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+    <div style={{position: "relative", backgroundColor: "red"}}>
+        <img 
+          style={{width: 180, height: 180, borderRadius: 90, border: "solid black", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
+          src="https://www.tailorbrands.com/wp-content/uploads/2020/07/mcdonalds-logo.jpg"
+          alt="Logo" 
+        />
+    </div>
+    <div style={{...mainContainer, ...flexContainer}}>
+      <div style={{height: 120}} />
+      <form style={{formContainer}}>
+        <input
+          style={{width: 250}} 
+          type="text" 
+          placeholder='Login' 
+          value={loginVal} 
+          onChange={evt => setLoginVal(evt.target.value)}
+        />
 
-      <form>
-        <input 
-        type="text" 
-        placeholder='Login' 
-        value={loginVal} 
-        onChange={evt => setLoginVal(evt.target.value)}
-        /> <br></br>
-        <input type="text" placeholder='Senha' value={paswVal} onChange={evt => setPaswVal(evt.target.value)}></input><br></br>
-        <PasswordInput />
-        <input type="checkbox" name="keepUser" checked={keepLogged} onChange={evt => setKeepLogged(!keepLogged)}></input>
+        <div style={{height: 13}} />
+
+        <PasswordInput 
+          Value={paswVal}
+          changeValue={setPaswVal}
+          placeHolder="Senha"
+        />
+
+        <div style={{height: 7}} />
+
+        <input type="checkbox" name="keepUser" checked={keepLogged} onChange={evt => setKeepLogged(!keepLogged)} />
         <label htmlFor="keepUser">Keep me logged</label>
       </form>
 
       <p>{message}</p>
   
-      <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center', marginTop: 50}}>
+      <div style={flexContainer}>
         <button type="button" onClick={() => login()}>Entrar</button>
-        <button type="button" onClick={() => navigate("/recoverPasw")}>Esqueci a senha</button>
+        <div style={{height: 10}} />
         <button type="button" onClick={() => navigate("/signUp")}>Cadastrar</button>
+        <div style={{height: 15}} />
+        <button type="button" onClick={() => navigate("/recoverPasw")}>Esqueci a senha</button>
       </div>
+
+      <div style={{height: 13}} />
+    </div>
     </div>
   )
+}
+
+const mainContainer = {
+  width: 750,
+  border: "solid black",
+  backgroundColor: "gray",
+  borderRadius: 10
+}
+
+const flexContainer = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center"
+}
+
+const formContainer = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "start"
 }
 
 export default SignIn

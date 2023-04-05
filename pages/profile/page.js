@@ -83,7 +83,7 @@ const Profile = () => {
 
         <div style={{display: 'flex'}}>
           <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}>
-            <button type="button" onClick={() => setWindowPopUp(<AlterName />)}>Alterar nome!</button>
+            <button type="button" onClick={() => setWindowPopUp(<AlterName />)}>Alterar nome</button>
           </div>
           <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}> 
             <button type="button" onClick={() => setWindowPopUp(<AlterPassword  />)}>Alterar senha</button>

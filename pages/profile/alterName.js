@@ -2,7 +2,7 @@ import { useState } from "react"
 import { getAuth, updateProfile } from "firebase/auth"
 
 export const AlterName = () => {
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("Digite aqui o nome novo")
   const [displayName, setDisplayName] = useState("")
 
   function changeName() {
@@ -28,7 +28,7 @@ export const AlterName = () => {
   }
 
   return (
-    <div>
+    <div style={containerStyle}>
       <h3>Digite o nome novo</h3>
       <input value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
       <p>{message}</p>
@@ -38,5 +38,7 @@ export const AlterName = () => {
 }
 
 const containerStyle = {
-  display: "flex"
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center"
 }

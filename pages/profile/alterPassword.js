@@ -3,7 +3,7 @@ import { useState } from "react"
 import { getAuth, reauthenticateWithCredential, updatePassword, EmailAuthProvider } from "firebase/auth"
 
 export const AlterPassword = () => {
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("Mensagem exemplo")
 
   const [oldPassw, setOldPassw] = useState("")
   const [newPassw, setNewPassw] = useState("")
@@ -50,14 +50,21 @@ export const AlterPassword = () => {
   }
 
   return (
-    <div>
+    <div style={containerStyle}>
+      <h3>Alterar senha</h3>
       <form style={{display: 'flex', flexDirection: 'column'}}>
         <input type="password" value={oldPassw} onChange={evt => setOldPassw(evt.target.value)} />
         <input type="password" value={newPassw} onChange={evt => setNewPassw(evt.target.value)} />
         <input type="password" value={confNewPassw} onChange={evt => setConfNewPassw(evt.target.value)} />
       </form>
-      <button type="button" onClick={() => updatePassw()}>Alterar senha</button>
       <p>{message}</p>
+      <button type="button" onClick={() => updatePassw()}>Alterar senha</button>
     </div>
   )
+}
+
+const containerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center"
 }

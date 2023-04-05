@@ -119,7 +119,7 @@ const StepsContainer = props => {
   return (
     <div>
       {steps[currStep].component}
-      <div>
+      <div style={{textAlign: "center"}}>
         <button type="button" onClick={() => back()}>Voltar</button>
         <button type="button" onClick={() => next()}>Próximo</button>
       </div>

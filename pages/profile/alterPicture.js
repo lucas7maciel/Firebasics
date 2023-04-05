@@ -2,15 +2,11 @@ import { useEffect, useRef, useState } from "react"
 import { getStorage, ref as storageRef, listAll, uploadBytes, getDownloadURL } from "firebase/storage"
 import { updateProfile, getAuth } from "firebase/auth"
 
-import editIcon from "../../assets/editIcon.png"
+import { ImagePicker } from "../../components/imagePicker"
 
 export const AlterPicture = (props) => {
   const [newPicture, setNewPicture] = useState(props.pictureUrl)
   const [message, setMessage] = useState("Mensagem")
-
-  const [hoveringImage, setHoveringImage] = useState(false)
-
-  const filePicker = useRef()
 
   async function updatePicture() {
     if (!newPicture) return console.log("Sem imagem")
@@ -24,7 +20,7 @@ export const AlterPicture = (props) => {
     }
 
     updateProfile(getAuth().currentUser, {photoURL: newPhotoURL})
-      .then(() => console.log("Imagem Mudada"))
+      .then(() => setMessage("Imagem alterada com sucesso"))
       .catch(error => console.log(`Erro ao alterar imagem\n${error}`))
   }
 
@@ -62,29 +58,7 @@ export const AlterPicture = (props) => {
 
   return (
     <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center', margin: '0 auto'}}>
-      <div>
-        <div 
-          style={{display: "grid", height: 150, width: 150, margin: "0 auto"}}
-          onMouseEnter={() => setHoveringImage(true)} 
-          onMouseLeave={() => setHoveringImage(false)}>
-          <img 
-            style={gridOverlay}
-            src={typeof(newPicture) === "object" ? URL.createObjectURL(newPicture) : newPicture} 
-          />
-
-          <div
-            style={hoveringImage ? {...gridOverlay, ...{backgroundColor: "rgba(0,0,0,0.2)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}} : {display: "none"}}
-            onClick={() => filePicker.current?.click()}>
-
-            <img 
-              style={{width:70, height: 70}}
-              src={editIcon}
-            />
-          </div>
-
-          <input style={{display: "none"}} type="file" ref={filePicker} onChange={evt => setNewPicture(evt.target.files[0])} />
-        </div>
-      </div>
+      <ImagePicker picture={newPicture} changePicture={setNewPicture} />
       <RecentPictures email={props.email} changeState={setNewPicture} />
       <button type="button" onClick={() => updatePicture()}>Alterar imagem</button>
       <p>{message}</p>
@@ -126,7 +100,8 @@ const RecentPictures = (props) => {
   }, [])
 
   return urlList.length > 0 ? (
-    <div>
+    <div style={{marginTop: 15}}>
+      <hr />
       <h3>Recent pictures</h3>
       <div style={{display:"flex", alignItems: "center"}}>
         {urlList.map((url, index) => {
@@ -147,7 +122,8 @@ const ImageExample = (props) => {
         style={{
           objectFit: "cover",
           width: 70,
-          height: 70
+          height: 70,
+          cursor: "pointer"
         }} />
     </div>
   )
