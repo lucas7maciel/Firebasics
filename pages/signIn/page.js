@@ -2,6 +2,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+import { buttonStyle, inputStyle } from "../../functions/stylePatterns";
 import PasswordInput from "../../components/passwordInput";
 
 const SignIn = () => {
@@ -54,10 +55,10 @@ const SignIn = () => {
   }
 
   return (
-    <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+    <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", backgroundColor: "#5345ED"}}>
     <div style={{position: "relative", backgroundColor: "red"}}>
         <img 
-          style={{width: 180, height: 180, borderRadius: 90, border: "solid black", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
+          style={{width: 180, height: 180, borderRadius: 90, border: "solid #FFFFF7", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
           src="https://www.tailorbrands.com/wp-content/uploads/2020/07/mcdonalds-logo.jpg"
           alt="Logo" 
         />
@@ -66,7 +67,7 @@ const SignIn = () => {
       <div style={{height: 120}} />
       <form style={{formContainer}}>
         <input
-          style={{width: 250}} 
+          style={inputStyle} 
           type="text" 
           placeholder='Login' 
           value={loginVal} 
@@ -90,11 +91,15 @@ const SignIn = () => {
       <p>{message}</p>
   
       <div style={flexContainer}>
-        <button type="button" onClick={() => login()}>Entrar</button>
+        <button 
+          style={buttonStyle}
+          type="button"
+          onClick={() => login()}
+        >Entrar</button>
         <div style={{height: 10}} />
-        <button type="button" onClick={() => navigate("/signUp")}>Cadastrar</button>
+        <button style={buttonStyle} type="button" onClick={() => navigate("/signUp")}>Cadastrar</button>
         <div style={{height: 15}} />
-        <button type="button" onClick={() => navigate("/recoverPasw")}>Esqueci a senha</button>
+        <button type="button" style={buttonStyle} onClick={() => navigate("/recoverPasw")}>Esqueci a senha</button>
       </div>
 
       <div style={{height: 13}} />
@@ -106,7 +111,8 @@ const SignIn = () => {
 const mainContainer = {
   width: 750,
   border: "solid black",
-  backgroundColor: "gray",
+  backgroundColor: "white",
+  borderColor: "#FFFFF7",
   borderRadius: 10
 }
 
