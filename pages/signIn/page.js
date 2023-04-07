@@ -2,7 +2,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { buttonStyle, inputStyle } from "../../functions/stylePatterns";
+import { pageStyle, containerStyle, buttonStyle, inputStyle } from "../../functions/stylePatterns";
 import PasswordInput from "../../components/passwordInput";
 
 const SignIn = () => {
@@ -55,7 +55,7 @@ const SignIn = () => {
   }
 
   return (
-    <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", backgroundColor: "#5345ED"}}>
+    <div style={pageStyle}>
     <div style={{position: "relative", backgroundColor: "red"}}>
         <img 
           style={{width: 180, height: 180, borderRadius: 90, border: "solid #FFFFF7", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
@@ -63,7 +63,7 @@ const SignIn = () => {
           alt="Logo" 
         />
     </div>
-    <div style={{...mainContainer, ...flexContainer}}>
+    <div style={{...containerStyle, ...flexContainer}}>
       <div style={{height: 120}} />
       <form style={{formContainer}}>
         <input
@@ -106,14 +106,6 @@ const SignIn = () => {
     </div>
     </div>
   )
-}
-
-const mainContainer = {
-  width: 750,
-  border: "solid black",
-  backgroundColor: "white",
-  borderColor: "#FFFFF7",
-  borderRadius: 10
 }
 
 const flexContainer = {

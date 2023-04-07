@@ -7,7 +7,7 @@ const PasswordInput = (props) => {
   return (
     <div style={onFocus ? {...containerStyle, ...focusStyle} : containerStyle}>
       <input 
-        style={{...childStyle, outline: "none", flex: 1}}
+        style={{...childStyle, outline: "none"}}
         type={visible ? "password" : "text"} 
         onFocus={() => setOnFocus(true)}
         onBlur={() => setOnFocus(false)}
@@ -17,7 +17,7 @@ const PasswordInput = (props) => {
       />
       
       <img 
-        style={childStyle}
+        style={{...childStyle, border: "solid"}}
         src={visible ? "https://cdn-icons-png.flaticon.com/512/7103/7103363.png" : "https://cdn-icons-png.flaticon.com/512/4264/4264841.png"}
         onClick={() => setVisible(!visible)}
         alt="Visible"
@@ -29,9 +29,14 @@ const PasswordInput = (props) => {
 const containerStyle = {
   display: "flex",
   alignItems: "center",
+
   backgroundColor: "white",
+
   border: "1px solid gray",
-  borderRadius: 2
+  borderRadius: 2,
+
+  width: 205,
+  height: 34
 }
 
 const focusStyle = {

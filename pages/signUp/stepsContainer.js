@@ -5,6 +5,7 @@ import { ref, uploadBytes, getDownloadURL} from "firebase/storage"
 
 import { storage } from "../../functions/firebase"
 
+import { buttonStyle } from "../../functions/stylePatterns"
 import Step1 from "./step1"
 import Step2 from "./step2"
 import Step3 from "./step3"
@@ -119,9 +120,9 @@ const StepsContainer = props => {
   return (
     <div>
       {steps[currStep].component}
-      <div style={{textAlign: "center"}}>
-        <button type="button" onClick={() => back()}>Voltar</button>
-        <button type="button" onClick={() => next()}>Próximo</button>
+      <div style={{textAlign: "center", marginTop: 20}}>
+        <button style={buttonStyle} type="button" onClick={() => back()}>Voltar</button>
+        <button style={buttonStyle} type="button" onClick={() => next()}>Próximo</button>
       </div>
     </div>
   )

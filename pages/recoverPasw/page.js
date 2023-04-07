@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { pageStyle, containerStyle, buttonStyle } from "../../functions/stylePatterns";
 
 const RecoverPasw = () => {
   const [emailVal, setEmailVal] = useState("")
@@ -33,18 +34,19 @@ const RecoverPasw = () => {
   }
 
   return (
-    <div style={{width: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-    <h1>Recuperar senha</h1>
-    <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", border: "solid black", borderRadius: 10, width: 300}}>
+    <div style={pageStyle}>
+    <h1 style={{color: "white", fontWeight: "bold"}}>RECUPERAR SENHA</h1>
+    <div style={containerStyle}>
       <div style={{height: 20}} />
-      <form>
-        <input type="text" placeholder="Email" value={emailVal} onChange={evt => updateInput(evt, setEmailVal)} ></input>
+      <form style={{textAlign: "center"}}>
+        <label htmlFor="email">Email</label><br />
+        <input type="text" placeholder="Email" id="email" value={emailVal} onChange={evt => updateInput(evt, setEmailVal)} ></input>
       </form>
       <p style={{textAlign: "center"}}>{message}</p>
-      <div style={{display:"flex", flexDirection:'column'}}>
-        <button type="button" onClick={() => sendLink()}>Enviar Link</button>
+      <div style={{display:"flex", flexDirection:'column', alignItems: "center"}}>
+        <button style={buttonStyle} type="button" onClick={() => sendLink()}>Enviar Link</button>
         <div style={{height: 8}} />
-        <button type="button" onClick={() => navigate("/")}>Voltar</button>
+        <button style={buttonStyle} type="button" onClick={() => navigate("/")}>Voltar</button>
       </div>
       <div style={{height: 20}} />
     </div>

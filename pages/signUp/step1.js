@@ -1,5 +1,6 @@
 import { useState, forwardRef, useImperativeHandle } from "react"
 import PasswordInput from "../../components/passwordInput"
+import { containerStyle } from "../../functions/stylePatterns"
 
 import { ImagePicker } from "../../components/imagePicker"
 
@@ -52,16 +53,24 @@ const Step1 = forwardRef((props, ref) => {
   }
 
   return (
-    <div>
+    <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
       <h1>Dados pessoais</h1>
 
       <ImagePicker picture={profilePic} changePicture={setProfilePic} />
+      <div style={{height: 20}} />
 
-      <form style={{display: 'flex', flexDirection: 'column'}}>
-        <input type="text" placeholder="Display Name" value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
-        <input type="text" placeholder="Email" value={email} onChange={evt => setEmail(evt.target.value)} />
-        <PasswordInput placeholder="Password" Value={password} changeValue={setPassword} />
-        <PasswordInput placeholder="Confirm password" Value={confPassword} changeValue={setConfPassword} />
+      <form style={{display: 'flex', flexDirection: 'column', alignItems: "start"}}>
+        <label htmlFor="displayName">Display Name</label>
+        <input type="text" placeholder="Display Name" id="displayName" value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
+
+        <label htmlFor="email">Email</label>
+        <input type="text" placeholder="Email" id="email" value={email} onChange={evt => setEmail(evt.target.value)} />
+
+        <label htmlFor="password">Password</label>
+        <PasswordInput placeholder="Password" id="password" Value={password} changeValue={setPassword} />
+
+        <label htmlFor="confPassword">Confirm Password</label>
+        <PasswordInput placeholder="Confirm password" id="confPassword" Value={confPassword} changeValue={setConfPassword} />
       </form>
     </div>
   )

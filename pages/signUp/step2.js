@@ -35,10 +35,10 @@ const Step2 = forwardRef((props, ref) => {
   }
 
   return (
-    <div>
+    <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
       <h1>Informações adicionais</h1>
 
-      <form style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+      <form style={{display: "flex", flexDirection: "column", alignItems: "start"}}>
         <input type="text" placeholder="LinkedIn" value={linkedIn} onChange={evt => setLinkedIn(evt.target.value)} />
         <input type="text" placeholder="GitHub" value={gitHub} onChange={evt => setGitHub(evt.target.value)} />
         <input type="text" placeholder="Instagram" value={instagram} onChange={evt => setInstagram(evt.target.value)} />
