@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { getStorage, ref as storageRef, listAll, uploadBytes, getDownloadURL } from "firebase/storage"
 import { updateProfile, getAuth } from "firebase/auth"
 
+import { buttonStyle } from "../../functions/stylePatterns"
 import { ImagePicker } from "../../components/imagePicker"
 
 export const AlterPicture = (props) => {

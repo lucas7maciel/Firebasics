@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { getAuth, sendEmailVerification } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import VerifyEmail from "./verifyEmail";
 import WindowPopUp from "../../components/windowPopUp";
+import { pageStyle, containerStyle, buttonStyle } from "../../functions/stylePatterns";
 import { AlterPicture } from "./alterPicture";
 import { AlterPassword } from "./alterPassword";
 import { AlterName } from "./alterName";
@@ -41,6 +42,7 @@ const Profile = () => {
   }, [user])
 
   function loadInfo() {
+    console.log(user.photoURL)
     setEmailVerified(user.emailVerified)
     setEmail(user.email)
     setPhotoUrl(user.photoURL || "") //CAMINHO PARA "SEM FOTO"
@@ -60,38 +62,41 @@ const Profile = () => {
   }
 
   return (
-    <div style={{margin: '0 auto', width: '100%'}}>
+    <div style={pageStyle}>
+    <div style={containerStyle}>
       <WindowPopUp content={windowContent} active={windowActive} setActive={setWindowActive} />
 
       <div style={{position: 'flex', flexDirection: 'column'}}>
-        <img src="./assets/favicon.png" />
         <button 
-        style={{position: 'absolute', right: 10, top: 30}}
+        style={{...buttonStyle ,position: 'absolute', right: 10, top: 30}}
         type="button"
         onClick={() => signOut()}>Voltar</button>
 
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
           <h1>Página do perfil</h1>
           <img src={photoUrl} alt="Profile picture" style={{objectFit: "cover", width: 150, height: 150}} />
-          <button type="button" onClick={() => setWindowPopUp(<AlterPicture pictureUrl={photoUrl} email={email} />)}>Mudar imagem</button>
           <h2>{displayName}</h2>
           <h3>{email}</h3>
           <VerifyEmail verified={emailVerified} changeMessage={setMessage} />
         </div>
 
-        <hr style={{marginTop: 15}}></hr>
+        <hr style={{marginBottom: 15, width: "70%", textAlign: "center"}}></hr>
 
-        <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', width: "65%", margin: "0 auto"}}>
           <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}>
-            <button type="button" onClick={() => setWindowPopUp(<AlterName />)}>Alterar nome</button>
+            <button style={buttonStyle} type="button" onClick={() => setWindowPopUp(<AlterName />)}>Alterar nome</button>
+          </div>
+          <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}>
+          <button style={buttonStyle} type="button" onClick={() => setWindowPopUp(<AlterPicture pictureUrl={photoUrl} email={email} />)}>Mudar imagem</button>
           </div>
           <div style={{flex: 1, flexDirection: 'column', textAlign: 'center'}}> 
-            <button type="button" onClick={() => setWindowPopUp(<AlterPassword  />)}>Alterar senha</button>
+            <button style={buttonStyle} type="button" onClick={() => setWindowPopUp(<AlterPassword  />)}>Alterar senha</button>
           </div>
         </div>
 
         <p style={{textAlign: 'center', fontWeight: 'bold'}}>{message}</p>
         </div>
+      </div>
       </div>
   )
 }

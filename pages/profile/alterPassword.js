@@ -1,6 +1,7 @@
 
 import { useState } from "react"
 import { getAuth, reauthenticateWithCredential, updatePassword, EmailAuthProvider } from "firebase/auth"
+import { buttonStyle } from "../../functions/stylePatterns"
 
 export const AlterPassword = () => {
   const [message, setMessage] = useState("Mensagem exemplo")
@@ -58,7 +59,7 @@ export const AlterPassword = () => {
         <input type="password" value={confNewPassw} onChange={evt => setConfNewPassw(evt.target.value)} />
       </form>
       <p>{message}</p>
-      <button type="button" onClick={() => updatePassw()}>Alterar senha</button>
+      <button style={buttonStyle} type="button" onClick={() => updatePassw()}>Alterar senha</button>
     </div>
   )
 }

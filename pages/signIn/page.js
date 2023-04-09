@@ -58,8 +58,8 @@ const SignIn = () => {
     <div style={pageStyle}>
     <div style={{position: "relative", backgroundColor: "red"}}>
         <img 
-          style={{width: 180, height: 180, borderRadius: 90, border: "solid #FFFFF7", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
-          src="https://www.tailorbrands.com/wp-content/uploads/2020/07/mcdonalds-logo.jpg"
+          style={{width: 180, height: 180, borderRadius: 90, border: "solid #FFFFF7", backgroundColor: "white", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
+          src="https://pic.onlinewebfonts.com/svg/img_337183.png"
           alt="Logo" 
         />
     </div>

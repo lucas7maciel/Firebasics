@@ -17,7 +17,7 @@ const PasswordInput = (props) => {
       />
       
       <img 
-        style={{...childStyle, border: "solid"}}
+        style={{...childStyle}}
         src={visible ? "https://cdn-icons-png.flaticon.com/512/7103/7103363.png" : "https://cdn-icons-png.flaticon.com/512/4264/4264841.png"}
         onClick={() => setVisible(!visible)}
         alt="Visible"
