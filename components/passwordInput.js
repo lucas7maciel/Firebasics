@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { mainColor } from "../functions/stylePatterns"
 
 const PasswordInput = (props) => {
   const [visible, setVisible] = useState(false)
@@ -7,8 +8,8 @@ const PasswordInput = (props) => {
   return (
     <div style={onFocus ? {...containerStyle, ...focusStyle} : containerStyle}>
       <input 
-        style={{...childStyle, outline: "none"}}
-        type={visible ? "password" : "text"} 
+        style={{...childStyle, outline: "none", flex: "1 1 auto"}}
+        type={visible ? "text" : "password"} 
         onFocus={() => setOnFocus(true)}
         onBlur={() => setOnFocus(false)}
         placeholder={props.placeHolder || null}
@@ -17,8 +18,8 @@ const PasswordInput = (props) => {
       />
       
       <img 
-        style={{...childStyle}}
-        src={visible ? "https://cdn-icons-png.flaticon.com/512/7103/7103363.png" : "https://cdn-icons-png.flaticon.com/512/4264/4264841.png"}
+        style={{...childStyle, flex: "0 1 auto"}}
+        src={visible ? "https://cdn-icons-png.flaticon.com/512/4264/4264841.png" : "https://cdn-icons-png.flaticon.com/512/7103/7103363.png"}
         onClick={() => setVisible(!visible)}
         alt="Visible"
       />
@@ -32,15 +33,17 @@ const containerStyle = {
 
   backgroundColor: "white",
 
-  border: "1px solid gray",
-  borderRadius: 2,
+  border: "solid",
+  borderColor: "gray",
+  borderRadius: 4,
+  borderWidth: 2,
 
-  width: 205,
+  width: "100%",
   height: 34
 }
 
 const focusStyle = {
-  outline: "2px solid black"
+  borderColor: mainColor
 }
 
 const childStyle = {

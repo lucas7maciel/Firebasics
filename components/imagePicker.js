@@ -1,9 +1,14 @@
 import { useState, useRef } from "react"
 import editIcon from "../assets/editIcon.png"
+import noPicture from "../assets/no_picture.jpg"
 
 export const ImagePicker = (props) => {
   const [hoveringImage, setHoveringImage] = useState(false)
   const filePicker = useRef()
+
+  if (!props.picture) {
+    props.changePicture(noPicture)
+  }
 
   return (
     <div 

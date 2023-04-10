@@ -40,5 +40,6 @@ export const AlterName = () => {
 const containerStyle = {
   display: "flex",
   flexDirection: "column",
-  alignItems: "center"
+  alignItems: "center",
+  transition: "opacity 5s ease-out"
 }

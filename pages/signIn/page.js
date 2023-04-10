@@ -65,7 +65,8 @@ const SignIn = () => {
     </div>
     <div style={{...containerStyle, ...flexContainer}}>
       <div style={{height: 120}} />
-      <form style={{formContainer}}>
+
+      <div style={formContainer}>
         <input
           style={inputStyle} 
           type="text" 
@@ -84,9 +85,11 @@ const SignIn = () => {
 
         <div style={{height: 7}} />
 
-        <input type="checkbox" name="keepUser" checked={keepLogged} onChange={evt => setKeepLogged(!keepLogged)} />
-        <label htmlFor="keepUser">Keep me logged</label>
-      </form>
+        <div style={{display: "flex"}}>
+          <input type="checkbox" name="keepUser" checked={keepLogged} onChange={() => setKeepLogged(!keepLogged)} />
+          <label htmlFor="keepUser">Keep me logged</label>
+        </div>
+      </div>
 
       <p>{message}</p>
   
@@ -115,9 +118,11 @@ const flexContainer = {
 }
 
 const formContainer = {
+  width: 300,
   display: "flex",
   flexDirection: "column",
-  alignItems: "start"
+  alignItems: "start",
+  justifyContent:"center"
 }
 
 export default SignIn

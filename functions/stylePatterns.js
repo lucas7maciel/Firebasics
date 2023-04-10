@@ -35,8 +35,9 @@ export const buttonStyle = {
 }
 
 export const inputStyle = {
-  width: 205,
+  width: "calc(100% - 4px)",
   height: 34,
+  
   border: "solid gray 2px",
   borderRadius: 4,
 

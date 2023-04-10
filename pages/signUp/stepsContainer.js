@@ -9,6 +9,7 @@ import { buttonStyle } from "../../functions/stylePatterns"
 import Step1 from "./step1"
 import Step2 from "./step2"
 import Step3 from "./step3"
+import { useNavigate } from "react-router-dom"
 
 const StepsContainer = props => {
   const [currStep, setCurrStep] = useState(1)
@@ -16,6 +17,8 @@ const StepsContainer = props => {
 
   const step1Ref = useRef()
   const step2Ref = useRef()
+
+  const navigate = useNavigate()
 
   const steps = {
     1: {
@@ -32,23 +35,25 @@ const StepsContainer = props => {
   useEffect(() => {
     //hook used to create the user and set their data
     if (currStep < Object.keys(steps).length) return
-    
-    createUserWithEmailAndPassword(getAuth(), userData.email, userData.password)
+
+    createUser()
+  }, [userData])
+
+  async function createUser() {
+    await createUserWithEmailAndPassword(getAuth(), userData.email, userData.password)
     .then(() => {
-      props.changeMessage("Usuário criado")
-      console.log("Usuário criado")
+      props.changeMessage("Usuário criado, atualizando dados...")
+      
+      if (userData.displayName || userData.profilePic) {
+        updateData()
+      }
     })
     .catch((error) => {
-      props.changeMessage("Erro ao criar usuário")
+      props.changeMessage(error.message)
       console.log(error.message)
     });
 
-
-    if (userData.displayName || userData.profilePic) {
-      updateData()
-    }
-
-  }, [userData])
+  }
 
   function next() {
     if (currStep >= Object.keys(steps).length) return //TROCAR POR LENGTH
@@ -72,9 +77,9 @@ const StepsContainer = props => {
   }
 
   function back() {
-    if (currStep > 1) {
-      setCurrStep(currStep => currStep - 1)
-    }
+    if (currStep == 1) navigate("/")
+  
+    setCurrStep(currStep => currStep - 1)
   }
 
   async function updateData() {
@@ -87,12 +92,11 @@ const StepsContainer = props => {
 
     updateProfile(getAuth().currentUser, {displayName: userData.displayName || "", photoURL: downloadUrl || ""})
     .then(() => {
-      props.changeMessage("Dados atualizados")
+      props.changeMessage("Dados atualizados, pronto para uso")
       console.log("Dados atualizados")
     })
     .catch(error => {
       props.changeMessage("Erro ao atualizar dados")
-      console.log("Erro ao atualizar dados")
       console.log(error.message)
     })
   }
