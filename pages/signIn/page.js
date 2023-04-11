@@ -65,7 +65,6 @@ const SignIn = () => {
     </div>
     <div style={{...containerStyle, ...flexContainer}}>
       <div style={{height: 120}} />
-
       <div style={formContainer}>
         <input
           style={inputStyle} 

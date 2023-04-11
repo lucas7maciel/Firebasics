@@ -11,7 +11,8 @@ export const pageStyle = {
   alignItems: "center", 
   justifyContent: "center",
   
-  backgroundColor: "#5345ED"
+  backgroundColor: "#5345ED",
+  transition: 'color 10s ease-out, background-color 1s ease-out'
 }
 
 export const containerStyle = {
@@ -37,7 +38,7 @@ export const buttonStyle = {
 export const inputStyle = {
   width: "calc(100% - 4px)",
   height: 34,
-  
+
   border: "solid gray 2px",
   borderRadius: 4,
 

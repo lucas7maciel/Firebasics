@@ -42,7 +42,7 @@ const Profile = () => {
   }, [user])
 
   function loadInfo() {
-    console.log(user.photoURL)
+    console.log(user)
     setEmailVerified(user.emailVerified)
     setEmail(user.email)
     setPhotoUrl(user.photoURL || "") //CAMINHO PARA "SEM FOTO"
@@ -75,8 +75,8 @@ const Profile = () => {
         <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
           <h1>Página do perfil</h1>
           <img src={photoUrl} alt="Profile picture" style={{objectFit: "cover", width: 150, height: 150}} />
-          <h2>{displayName}</h2>
-          <h3>{email}</h3>
+          <h4>{displayName}</h4>
+          <h4>{email}</h4>
           <VerifyEmail verified={emailVerified} changeMessage={setMessage} />
         </div>
 

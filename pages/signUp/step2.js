@@ -12,19 +12,18 @@ const Step2 = forwardRef((props, ref) => {
 
   function verify() {
     //formatos inválidos
-    if (picture && !picture[type].includes("image")) {
+    if (picture && !picture.type.includes("image")) {
+      console.log(picture)
       console.log("O formato do arquivo deve ser uma imagem")
       return false
-    }
+    } 
 
     return true
   }
 
   function getData() {
     return {
-      linkedIn: linkedIn,
-      gitHub: gitHub,
-      instagram: instagram,
+      picture: picture,
       aboutMe: aboutMe
     }
   }
@@ -35,6 +34,7 @@ const Step2 = forwardRef((props, ref) => {
 
       <div>
         <ImagePicker picture={picture} changePicture={setPicture} />
+
         <label htmlFor="aboutMe">About me</label><br/>
         <textarea id="aboutMe" row="5" columns="20" value={aboutMe} onChange={evt => setAboutMe(evt.target.value)} />
       </div>
