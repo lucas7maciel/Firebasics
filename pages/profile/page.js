@@ -8,6 +8,7 @@ import { pageStyle, containerStyle, buttonStyle } from "../../functions/stylePat
 import { AlterPicture } from "./alterPicture";
 import { AlterPassword } from "./alterPassword";
 import { AlterName } from "./alterName";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 const Profile = () => {
   const [user, setUser] = useState(getAuth().currentUser)
@@ -42,13 +43,36 @@ const Profile = () => {
   }, [user])
 
   function loadInfo() {
-    console.log(user)
     setEmailVerified(user.emailVerified)
     setEmail(user.email)
     setPhotoUrl(user.photoURL || "") //CAMINHO PARA "SEM FOTO"
     setDisplayName(user.displayName || "(Sem nome)")
 
     setInfoLoaded(true)
+
+    getDescription()
+  }
+
+  function getDescription() {
+    const descriptionRef = ref(getStorage(), `users/${user.email}/about_me.txt`)
+
+    console.log("Pegando descrição")
+
+    getDownloadURL(descriptionRef)
+      .then(url => {
+        const xhttp = new XMLHttpRequest()
+
+        xhttp.open("GET", url, true);
+        xhttp.send();
+
+        xhttp.onreadystatechange = () => {
+          if (this.readyState == 4 && this.status == 200) {
+            console.log(xhttp.response)
+          }
+        }
+      })
+
+      .catch(error => console.log(error))
   }
 
   function setWindowPopUp(content) {
@@ -68,7 +92,7 @@ const Profile = () => {
 
       <div style={{position: 'flex', flexDirection: 'column'}}>
         <button 
-        style={{...buttonStyle ,position: 'absolute', right: 10, top: 30}}
+        style={{backgroundColor: "white", color: "blue", border: "none", padding: 9, borderRadius: 4, position: 'absolute', right: 10, top: 20}}
         type="button"
         onClick={() => signOut()}>Voltar</button>
 

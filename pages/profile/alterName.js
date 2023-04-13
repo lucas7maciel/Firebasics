@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { getAuth, updateProfile } from "firebase/auth"
+import { inputStyle, buttonStyle } from "../../functions/stylePatterns"
 
 export const AlterName = () => {
   const [message, setMessage] = useState("Digite aqui o nome novo")
@@ -30,9 +31,9 @@ export const AlterName = () => {
   return (
     <div style={containerStyle}>
       <h3>Digite o nome novo</h3>
-      <input value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
+      <input style={inputStyle} value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
       <p>{message}</p>
-      <button type="button" onClick={() => changeName()}>Mudar nome</button>
+      <button style={buttonStyle} type="button" onClick={() => changeName()}>Mudar nome</button>
     </div>
   )
 }

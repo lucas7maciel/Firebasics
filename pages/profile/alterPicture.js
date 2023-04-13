@@ -61,7 +61,7 @@ export const AlterPicture = (props) => {
     <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center', margin: '0 auto'}}>
       <ImagePicker picture={newPicture} changePicture={setNewPicture} />
       <RecentPictures email={props.email} changeState={setNewPicture} />
-      <button type="button" onClick={() => updatePicture()}>Alterar imagem</button>
+      <button style={buttonStyle} type="button" onClick={() => updatePicture()}>Alterar imagem</button>
       <p>{message}</p>
     </div>
   )

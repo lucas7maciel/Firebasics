@@ -1,7 +1,7 @@
 
 import { useState } from "react"
 import { getAuth, reauthenticateWithCredential, updatePassword, EmailAuthProvider } from "firebase/auth"
-import { buttonStyle } from "../../functions/stylePatterns"
+import { inputStyle, buttonStyle } from "../../functions/stylePatterns"
 
 export const AlterPassword = () => {
   const [message, setMessage] = useState("Mensagem exemplo")
@@ -54,9 +54,9 @@ export const AlterPassword = () => {
     <div style={containerStyle}>
       <h3>Alterar senha</h3>
       <form style={{display: 'flex', flexDirection: 'column'}}>
-        <input type="password" value={oldPassw} onChange={evt => setOldPassw(evt.target.value)} />
-        <input type="password" value={newPassw} onChange={evt => setNewPassw(evt.target.value)} />
-        <input type="password" value={confNewPassw} onChange={evt => setConfNewPassw(evt.target.value)} />
+        <input style={inputStyle} type="password" value={oldPassw} onChange={evt => setOldPassw(evt.target.value)} />
+        <input style={inputStyle} type="password" value={newPassw} onChange={evt => setNewPassw(evt.target.value)} />
+        <input style={inputStyle} type="password" value={confNewPassw} onChange={evt => setConfNewPassw(evt.target.value)} />
       </form>
       <p>{message}</p>
       <button style={buttonStyle} type="button" onClick={() => updatePassw()}>Alterar senha</button>
