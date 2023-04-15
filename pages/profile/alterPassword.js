@@ -4,7 +4,7 @@ import { getAuth, reauthenticateWithCredential, updatePassword, EmailAuthProvide
 import { inputStyle, buttonStyle } from "../../functions/stylePatterns"
 
 export const AlterPassword = () => {
-  const [message, setMessage] = useState("Mensagem exemplo")
+  const [message, setMessage] = useState("Mensage")
 
   const [oldPassw, setOldPassw] = useState("")
   const [newPassw, setNewPassw] = useState("")
@@ -52,14 +52,14 @@ export const AlterPassword = () => {
 
   return (
     <div style={containerStyle}>
-      <h3>Alterar senha</h3>
+      <h3>Enter the new password</h3>
       <form style={{display: 'flex', flexDirection: 'column'}}>
-        <input style={inputStyle} type="password" value={oldPassw} onChange={evt => setOldPassw(evt.target.value)} />
-        <input style={inputStyle} type="password" value={newPassw} onChange={evt => setNewPassw(evt.target.value)} />
-        <input style={inputStyle} type="password" value={confNewPassw} onChange={evt => setConfNewPassw(evt.target.value)} />
+        <input style={inputStyle} type="password" placeholder="Old password" value={oldPassw} onChange={evt => setOldPassw(evt.target.value)} />
+        <input style={inputStyle} type="password" placeholder="New password" value={newPassw} onChange={evt => setNewPassw(evt.target.value)} />
+        <input style={inputStyle} type="password" placeholder="Confirm new password" value={confNewPassw} onChange={evt => setConfNewPassw(evt.target.value)} />
       </form>
       <p>{message}</p>
-      <button style={buttonStyle} type="button" onClick={() => updatePassw()}>Alterar senha</button>
+      <button style={buttonStyle} type="button" onClick={() => updatePassw()}>Alterar Password</button>
     </div>
   )
 }

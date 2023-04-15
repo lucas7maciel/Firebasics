@@ -3,7 +3,7 @@ import { getAuth, updateProfile } from "firebase/auth"
 import { inputStyle, buttonStyle } from "../../functions/stylePatterns"
 
 export const AlterName = () => {
-  const [message, setMessage] = useState("Digite aqui o nome novo")
+  const [message, setMessage] = useState("Message")
   const [displayName, setDisplayName] = useState("")
 
   function changeName() {
@@ -30,10 +30,10 @@ export const AlterName = () => {
 
   return (
     <div style={containerStyle}>
-      <h3>Digite o nome novo</h3>
+      <h3>Enter the new name</h3>
       <input style={inputStyle} value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
       <p>{message}</p>
-      <button style={buttonStyle} type="button" onClick={() => changeName()}>Mudar nome</button>
+      <button style={buttonStyle} type="button" onClick={() => changeName()}>Alter Name</button>
     </div>
   )
 }

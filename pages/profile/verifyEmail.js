@@ -14,7 +14,7 @@ const VerifyEmail = (props) => {
   }
 
   return props.verified ? 
-  (<p style={{fontWeight: "bold", color: "green"}}>Email validado</p>) : 
+  (<p style={{fontWeight: "bold", color: "green"}}>Email validated</p>) : 
   (<button style={buttonStyle} type="button" onClick={() => verifyEmail()}>Verificar email</button>)
 }
 

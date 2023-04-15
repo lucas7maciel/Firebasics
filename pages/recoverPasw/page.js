@@ -35,8 +35,9 @@ const RecoverPasw = () => {
 
   return (
     <div style={pageStyle}>
-    <h1 style={{color: "white", fontWeight: "bold"}}>RECUPERAR SENHA</h1>
     <div style={containerStyle}>
+      <h1 style={{color: "white", fontWeight: "bold", position: "absolute", bottom: "100%", left: "50%", transform: "translate(-50%, -10%)"}}>RECUPERAR SENHA</h1>
+
       <div style={{height: 20}} />
       <form style={{textAlign: "center"}}>
         <label htmlFor="email">Email</label><br />

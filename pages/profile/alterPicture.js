@@ -7,7 +7,7 @@ import { ImagePicker } from "../../components/imagePicker"
 
 export const AlterPicture = (props) => {
   const [newPicture, setNewPicture] = useState(props.pictureUrl)
-  const [message, setMessage] = useState("Mensagem")
+  const [message, setMessage] = useState("Hover the image to change it locally")
 
   async function updatePicture() {
     if (!newPicture) return console.log("Sem imagem")
@@ -21,7 +21,7 @@ export const AlterPicture = (props) => {
     }
 
     updateProfile(getAuth().currentUser, {photoURL: newPhotoURL})
-      .then(() => setMessage("Imagem alterada com sucesso"))
+      .then(() => setMessage("Imagem has been changed"))
       .catch(error => console.log(`Erro ao alterar imagem\n${error}`))
   }
 
@@ -61,32 +61,26 @@ export const AlterPicture = (props) => {
     <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center', margin: '0 auto'}}>
       <ImagePicker picture={newPicture} changePicture={setNewPicture} />
       <RecentPictures email={props.email} changeState={setNewPicture} />
-      <button style={buttonStyle} type="button" onClick={() => updatePicture()}>Alterar imagem</button>
+      <button style={buttonStyle} type="button" onClick={() => updatePicture()}>Alter Picture</button>
       <p>{message}</p>
     </div>
   )
 }
 
-const gridOverlay = {
-  gridRowStart: 1,
-  gridColumnStart: 1,
-  placeSelf: "center",
-
-  objectFit: "cover", 
-  height: 150, 
-  width: 150
-}
-
 const RecentPictures = (props) => {
   const [urlList, setUrlList] = useState([])
+  const [stage, setStage] = useState("Loading")
+
   const folderRef = storageRef(getStorage(), `users/${props.email}/profile_pictures`)
 
   useEffect(() => {
     listAll(folderRef)
       .then((res) => {
-        let items = res.items
+        let items = res.items.slice(0, -1)
 
-        if (items.length > 3) {
+        if (items.length <= 1) {
+          setStage(() => "NoPics")
+        } else if (items.length > 3) {
           items = items.slice(-3)
         }
 
@@ -96,12 +90,14 @@ const RecentPictures = (props) => {
               setUrlList(urlList => [...urlList, url]) 
             })
       })}).catch(error => {
-        console.log(error)
+        setStage(() => "Error")
       })
   }, [])
 
+  useEffect(() => console.log(recentPicsStages[stage]), [stage])
+
   return urlList.length > 0 ? (
-    <div style={{marginTop: 15}}>
+    <div style={{marginTop: 15, width: 240}}>
       <hr />
       <h3>Recent pictures</h3>
       <div style={{display:"flex", alignItems: "center"}}>
@@ -111,7 +107,37 @@ const RecentPictures = (props) => {
       </div>
       <hr />
     </div>
-  ) : null
+  ) : recentPicsStages[stage]
+}
+
+const loadingAnimation = `
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`
+
+const recentPicsStages = {
+  Loading: 
+  (<div style={{width: 240}}>
+    <hr />
+    <img style={{
+      height: 60, 
+      width: 60,
+      transform: "rotate(0deg)",
+      transform: "rotate(360deg)",
+      animation: `${loadingAnimation} 2s linear infinite`
+      }} src="https://www.superiorlawncareusa.com/wp-content/uploads/2020/05/loading-gif-png-5.gif" alt="Loading" />
+    <hr />
+  </div>),
+
+  NoPics:
+  (<div>
+    <h3>No pictures</h3>
+  </div>),
+
+  Error:
+  (<div>
+    <h3>Erro ao encontrar imagens</h3>
+  </div>)
 }
 
 const ImageExample = (props) => {

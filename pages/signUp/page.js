@@ -19,6 +19,7 @@ const SignUp = () => {
 
   const step1Ref = useRef()
   const step2Ref = useRef()
+  const step3Ref = useRef()
 
   const navigate = useNavigate()
 
@@ -31,14 +32,14 @@ const SignUp = () => {
       component: <Step2 ref={step2Ref} />,
       ref: step2Ref
     },
-    3: {component: <Step3 />}
+    3: {component: <Step3 ref={step3Ref} user={userData} />}
   }
 
   useEffect(() => {
     //hook used to create the user and set their data
     if (currStep < Object.keys(steps).length) return
 
-    createUser()
+    //createUser()
   }, [userData])
 
   async function createUser() {
@@ -60,13 +61,12 @@ const SignUp = () => {
   }
 
   function next() {
-    if (currStep >= Object.keys(steps).length) return //TROCAR POR LENGTH
+    //comentar
+    if (currStep >= Object.keys(steps).length) return
 
     const step = steps[currStep]
 
-    if (!step.ref) {
-      return console.log("Não tem ref")
-    }
+    if (!step.ref) return
 
     //checks if the conditions of the step were satisfied
     //if so, they are added to the state userData and go to the next one
@@ -90,8 +90,8 @@ const SignUp = () => {
     const storageRef = ref(storage, `users/${userData.email}/about_me.txt`)
 
     await uploadString(storageRef, userData.aboutMe)
-      .then(() => console.log("Descrição uploadada"))
-      .catch(error => console.log(error))
+      .then(() => setMessage("Descrição adicionada"))
+      .catch(error => setMessage("Erro ao adicionar descrição"))
 
     let downloadUrl
 
@@ -101,7 +101,7 @@ const SignUp = () => {
 
     updateProfile(getAuth().currentUser, {displayName: userData.displayName || "", photoURL: downloadUrl || ""})
     .then(() => {
-      setMessage("Dados atualizados, pronto para uso")
+      setMessage("Dados atualizados")
       console.log("Dados atualizados")
     })
     .catch(error => {
@@ -110,30 +110,11 @@ const SignUp = () => {
     })
   }
 
-  async function getProfilePic() {
-    let imageUrl
-    const imageRef = ref(storage, `users/${userData.email}/profile_pictures/1`)
-
-    await uploadBytes(imageRef, userData.picture)
-    .then(async () => {
-
-      await getDownloadURL(imageRef)
-      .then(url => imageUrl = url)
-    })
-    .catch((error) => {
-      console.log("Erro ao subir imagem")
-      console.log(error.message)
-
-      imageUrl = null
-    })
-
-    return imageUrl
-  }
-
   return (
     <div style={pageStyle}>
-    <h2 style={{color: "white", fontWeight: "bold"}}>CADASTRO</h2>
     <div style={containerStyle}>
+      <h1 style={{color: "white", fontWeight: "bold", position: "absolute", bottom: "100%", left: "50%", transform: "translate(-50%, -10%)"}}>CADASTRO</h1>
+
       {steps[currStep].component}
 
       <p style={{textAlign: "center"}}>{message}</p>

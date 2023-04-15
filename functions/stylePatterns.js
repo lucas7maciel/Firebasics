@@ -1,7 +1,7 @@
 export const fontColor = null
 
 export const mainColor = "#5345ED"
-export const secondaryColor = null
+export const secondaryColor = "white"
 
 export const pageStyle = {
   width: "100%", 
@@ -16,6 +16,7 @@ export const pageStyle = {
 }
 
 export const containerStyle = {
+  position: "relative",
   width: 750,
     
   border: "solid black",
@@ -38,6 +39,8 @@ export const buttonStyle = {
 export const inputStyle = {
   width: "calc(100% - 4px)",
   height: 34,
+  marginTop: 5,
+  marginBottom: 5,
 
   border: "solid gray 2px",
   borderRadius: 4,

@@ -58,7 +58,7 @@ const SignIn = () => {
     <div style={pageStyle}>
     <div style={{position: "relative", backgroundColor: "red"}}>
         <img 
-          style={{width: 180, height: 180, borderRadius: 90, border: "solid #FFFFF7", backgroundColor: "white", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
+          style={{zIndex: 2, width: 180, height: 180, borderRadius: 90, border: "solid #FFFFF7", backgroundColor: "white", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
           src="https://pic.onlinewebfonts.com/svg/img_337183.png"
           alt="Logo" 
         />
