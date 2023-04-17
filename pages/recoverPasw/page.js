@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { pageStyle, containerStyle, buttonStyle } from "../../functions/stylePatterns";
+
+import "../../functions/styles.css"
 
 const RecoverPasw = () => {
   const [emailVal, setEmailVal] = useState("")
@@ -34,20 +35,22 @@ const RecoverPasw = () => {
   }
 
   return (
-    <div style={pageStyle}>
-    <div style={containerStyle}>
-      <h1 style={{color: "white", fontWeight: "bold", position: "absolute", bottom: "100%", left: "50%", transform: "translate(-50%, -10%)"}}>RECUPERAR SENHA</h1>
+    <div className="page">
+    <div className="content">
+      <h1 className="page-title">RECUPERAR SENHA</h1>
 
       <div style={{height: 20}} />
       <form style={{textAlign: "center"}}>
         <label htmlFor="email">Email</label><br />
-        <input type="text" placeholder="Email" id="email" value={emailVal} onChange={evt => updateInput(evt, setEmailVal)} ></input>
+        <input type="text" placeholder="Email" id="email" value={emailVal} onChange={evt => updateInput(evt, setEmailVal)} />
       </form>
-      <p style={{textAlign: "center"}}>{message}</p>
-      <div style={{display:"flex", flexDirection:'column', alignItems: "center"}}>
-        <button style={buttonStyle} type="button" onClick={() => sendLink()}>Enviar Link</button>
+
+      <p className="message">{message}</p>
+
+      <div className="buttons">
+        <button type="button" onClick={() => sendLink()}>Enviar Link</button>
         <div style={{height: 8}} />
-        <button style={buttonStyle} type="button" onClick={() => navigate("/")}>Voltar</button>
+        <button type="button" onClick={() => navigate("/")}>Voltar</button>
       </div>
       <div style={{height: 20}} />
     </div>

@@ -1,0 +1,46 @@
+
+.overlay-container {
+  display: grid;
+
+  height: 150px;
+  width: 150px;
+  margin: 0 auto;
+}
+
+.overlay-container #picture, .overlay-container #edit {
+  grid-row-start: 1;
+  grid-column-start: 1;
+  place-self: center;
+
+  height: 150px;
+  width: 150px;
+}
+
+.overlay-container #picture {
+  object-fit: cover;
+}
+
+.overlay-container #edit {
+  opacity: 0%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-container #edit:hover {
+  opacity: 100%;
+
+  background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  
+}
+
+.overlay-container #edit img {
+  height: 70px;
+  width: 70px;
+}
+
+#refInput {
+  display: none;
+}

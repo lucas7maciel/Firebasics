@@ -29,9 +29,9 @@ const Step2 = forwardRef((props, ref) => {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-      <h1>Informações adicionais</h1>
-
+    <>
+    <h1 className="step-title">Informações adicionais</h1>
+    <div className="step">
       <div>
         <ImagePicker picture={picture} changePicture={setPicture} />
 
@@ -39,6 +39,7 @@ const Step2 = forwardRef((props, ref) => {
         <textarea id="aboutMe" row="5" columns="20" value={aboutMe} onChange={evt => setAboutMe(evt.target.value)} />
       </div>
     </div>
+    </>
   )
 })
 

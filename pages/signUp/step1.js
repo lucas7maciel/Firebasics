@@ -1,6 +1,5 @@
-import { useState, forwardRef, useImperativeHandle } from "react"
+import { useState, forwardRef, useImperativeHandle, useRef, useEffect } from "react"
 import PasswordInput from "../../components/passwordInput"
-import { containerStyle, inputStyle } from "../../functions/stylePatterns"
 
 const Step1 = forwardRef((props, ref) => {
   const [profilePic, setProfilePic] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
@@ -51,23 +50,25 @@ const Step1 = forwardRef((props, ref) => {
   }
 
   return (
-    <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-      <h1>Dados pessoais</h1>
+    <>
+    <h1 className="step-title">Dados pessoais</h1>
+    <div className="step">
 
       <form style={{display: 'flex', flexDirection: 'column', alignItems: "start"}}>
         <label htmlFor="displayName">Display Name</label>
-        <input style={inputStyle} type="text" placeholder="Display Name" id="displayName" value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
+        <input type="text" placeholder="Display Name" id="displayName" value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
 
-        <label htmlFor="email">Email</label>
-        <input style={inputStyle} type="text" placeholder="Email" id="email" value={email} onChange={evt => setEmail(evt.target.value)} />
+        <label style={{marginTop: 5}} htmlFor="email">Email</label>
+        <input type="text" placeholder="Email" id="email" value={email} onChange={evt => setEmail(evt.target.value)} />
 
-        <label htmlFor="password">Password</label>
+        <label style={{marginTop: 5}} htmlFor="password">Password</label>
         <PasswordInput placeholder="Password" id="password" Value={password} changeValue={setPassword} />
 
-        <label htmlFor="confPassword">Confirm Password</label>
+        <label style={{marginTop: 5}} htmlFor="confPassword">Confirm Password</label>
         <PasswordInput placeholder="Confirm password" id="confPassword" Value={confPassword} changeValue={setConfPassword} />
       </form>
     </div>
+    </>
   )
 })
 

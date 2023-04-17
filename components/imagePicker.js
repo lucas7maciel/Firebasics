@@ -1,4 +1,5 @@
 import { Component, createRef } from "react"
+import "./imagePicker.css"
 import editIcon from "../assets/editIcon.png"
 import noPicture from "../assets/no_picture.jpg"
 
@@ -12,13 +13,13 @@ export class ImagePicker extends Component {
 
   render() {
     return (
-      <div 
-    style={{display: "grid", height: 150, width: 150, margin: "0 auto"}}
+    <div 
+    className="overlay-container"
     onMouseEnter={() => this.setState({hoveringImage: true})} 
     onMouseLeave={() => this.setState({hoveringImage: false})}
     >
-      <img 
-      style={gridOverlay}
+      <img
+      id="picture"
       src={
         (typeof(this.props.picture) === "object" ? 
           URL.createObjectURL(this.props.picture) : this.props.picture) || noPicture
@@ -26,31 +27,20 @@ export class ImagePicker extends Component {
       />
 
       <div
-      style={this.state.hoveringImage ? {...gridOverlay, ...{backgroundColor: "rgba(0,0,0,0.2)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"}} : {display: "none"}}
+      id="edit"
       onClick={() => this.filePicker.current?.click()}
       >
         <img 
-        style={{width:70, height: 70}}
         src={editIcon}
         />
       </div>
 
       <input
-      style={{display: "none"}} 
+      id="refInput"
       type="file" ref={this.filePicker} 
       onChange={evt => this.props.changePicture(evt.target.files[0])} 
       />
     </div>
     )
   }
-}
-
-const gridOverlay = {
-  gridRowStart: 1,
-  gridColumnStart: 1,
-  placeSelf: "center",
-
-  objectFit: "cover", 
-  height: 150, 
-  width: 150
 }

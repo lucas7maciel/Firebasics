@@ -2,7 +2,8 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { pageStyle, containerStyle, buttonStyle, inputStyle } from "../../functions/stylePatterns";
+import "../../functions/styles.css"
+import "./style.css"
 import PasswordInput from "../../components/passwordInput";
 
 const SignIn = () => {
@@ -55,19 +56,14 @@ const SignIn = () => {
   }
 
   return (
-    <div style={pageStyle}>
-    <div style={{position: "relative", backgroundColor: "red"}}>
-        <img 
-          style={{zIndex: 2, width: 180, height: 180, borderRadius: 90, border: "solid #FFFFF7", backgroundColor: "white", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} 
-          src="https://pic.onlinewebfonts.com/svg/img_337183.png"
-          alt="Logo" 
-        />
+    <div className="page">
+    <div className="logo">
+      <img src="https://pic.onlinewebfonts.com/svg/img_337183.png" alt="Logo" />
     </div>
-    <div style={{...containerStyle, ...flexContainer}}>
+    <div className="content">
       <div style={{height: 120}} />
-      <div style={formContainer}>
+      <div className="form">
         <input
-          style={inputStyle} 
           type="text" 
           placeholder='Login' 
           value={loginVal} 
@@ -84,44 +80,29 @@ const SignIn = () => {
 
         <div style={{height: 7}} />
 
-        <div style={{display: "flex"}}>
+        <div className="checkbox">
           <input type="checkbox" name="keepUser" checked={keepLogged} onChange={() => setKeepLogged(!keepLogged)} />
           <label htmlFor="keepUser">Keep me logged</label>
         </div>
       </div>
 
-      <p>{message}</p>
+      <p className="message">{message}</p>
   
-      <div style={flexContainer}>
+      <div className="buttons">
         <button 
-          style={buttonStyle}
           type="button"
           onClick={() => login()}
         >Entrar</button>
         <div style={{height: 10}} />
-        <button style={buttonStyle} type="button" onClick={() => navigate("/signUp")}>Cadastrar</button>
+        <button type="button" onClick={() => navigate("/signUp")}>Cadastrar</button>
         <div style={{height: 15}} />
-        <button type="button" style={buttonStyle} onClick={() => navigate("/recoverPasw")}>Esqueci a senha</button>
+        <button type="button" onClick={() => navigate("/recoverPasw")}>Esqueci a senha</button>
       </div>
 
       <div style={{height: 13}} />
     </div>
     </div>
   )
-}
-
-const flexContainer = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center"
-}
-
-const formContainer = {
-  width: 300,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "start",
-  justifyContent:"center"
 }
 
 export default SignIn

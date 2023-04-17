@@ -1,5 +1,4 @@
 import { getAuth, sendEmailVerification } from "firebase/auth"
-import { buttonStyle } from "../../functions/stylePatterns"
 
 const VerifyEmail = (props) => {
   function verifyEmail() {
@@ -14,8 +13,8 @@ const VerifyEmail = (props) => {
   }
 
   return props.verified ? 
-  (<p style={{fontWeight: "bold", color: "green"}}>Email validated</p>) : 
-  (<button style={buttonStyle} type="button" onClick={() => verifyEmail()}>Verificar email</button>)
+  (<p id="email-validated">Email validated</p>) : 
+  (<button type="button" onClick={() => verifyEmail()}>Verificar email</button>)
 }
 
 export default VerifyEmail

@@ -5,7 +5,8 @@ import { ref, uploadBytes, uploadString, getDownloadURL} from "firebase/storage"
 
 import { useNavigate } from "react-router-dom"
 
-import { pageStyle, containerStyle, buttonStyle } from '../../functions/stylePatterns';
+import "../../functions/styles.css"
+import "./style.css"
 import { storage } from "../../functions/firebase"
 
 import Step1 from "./step1"
@@ -111,16 +112,17 @@ const SignUp = () => {
   }
 
   return (
-    <div style={pageStyle}>
-    <div style={containerStyle}>
-      <h1 style={{color: "white", fontWeight: "bold", position: "absolute", bottom: "100%", left: "50%", transform: "translate(-50%, -10%)"}}>CADASTRO</h1>
+    <div className="page">
+    <div className="content">
+      <h1 className="page-title">CADASTRO</h1>
 
       {steps[currStep].component}
 
-      <p style={{textAlign: "center"}}>{message}</p>
-      <div style={{textAlign: "center", marginTop: 20}}>
-        <button style={buttonStyle} type="button" onClick={() => back()}>Voltar</button>
-        <button style={buttonStyle} type="button" onClick={() => next()}>Próximo</button>
+      <p className="message">{message}</p>
+
+      <div className="button">
+        <button type="button" onClick={() => back()}>Voltar</button>
+        <button type="button" onClick={() => next()}>Próximo</button>
       </div>
     </div>
     </div>

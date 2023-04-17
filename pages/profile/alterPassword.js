@@ -51,21 +51,16 @@ export const AlterPassword = () => {
   }
 
   return (
-    <div style={containerStyle}>
+    <div className="center">
       <h3>Enter the new password</h3>
-      <form style={{display: 'flex', flexDirection: 'column'}}>
-        <input style={inputStyle} type="password" placeholder="Old password" value={oldPassw} onChange={evt => setOldPassw(evt.target.value)} />
-        <input style={inputStyle} type="password" placeholder="New password" value={newPassw} onChange={evt => setNewPassw(evt.target.value)} />
-        <input style={inputStyle} type="password" placeholder="Confirm new password" value={confNewPassw} onChange={evt => setConfNewPassw(evt.target.value)} />
+      <form className="popup-form">
+        <input type="password" placeholder="Old password" value={oldPassw} onChange={evt => setOldPassw(evt.target.value)} />
+        <input type="password" placeholder="New password" value={newPassw} onChange={evt => setNewPassw(evt.target.value)} />
+        <input type="password" placeholder="Confirm new password" value={confNewPassw} onChange={evt => setConfNewPassw(evt.target.value)} />
       </form>
-      <p>{message}</p>
-      <button style={buttonStyle} type="button" onClick={() => updatePassw()}>Alterar Password</button>
+      <p className="message">{message}</p>
+      <button type="button" onClick={() => updatePassw()}>Alterar Password</button>
     </div>
   )
 }
 
-const containerStyle = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center"
-}
