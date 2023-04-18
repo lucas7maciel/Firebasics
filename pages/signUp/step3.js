@@ -1,82 +1,76 @@
 import { useState, useEffect } from "react"
 import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
-import { ref as storageRef, uploadBytes, uploadString, getDownloadURL} from "firebase/storage"
+import { ref as storageRef, uploadBytes, uploadString, getDownloadURL, getStorage} from "firebase/storage"
 
-const Step3 = (props) => {
+export const Step3 = (props) => {
   const [message, setMessage] = useState("Criando usuário")
+
   useEffect(() => /*createUser()*/console.log("Trocar por create user"), [])
 
-  console.log(props.user)
-  async function createUser() {
-    await createUserWithEmailAndPassword(getAuth(), props.user.email, props.user.password)
-    .then(() => {
-      console.log("Usuário criado, atualizando dados...")
-      
-      if (props.user.displayName || props.user.picture) {
-        console.log(`Profile pic:`)
-        console.log(user.picture)
-        updateData()
-      }
-    })
-    .catch((error) => {
-      //setMessage(error.message)
-      console.log(error.message)
-    });
+  function createUser() {
+    createUserWithEmailAndPassword(getAuth(), props.user.email, props.user.password)
+      .then(() => {
+        this.props.setMessage("Usuário criado, atualizando dados")
+        
+        if (props.user.displayName || props.user.picture) {
+          updateData()
+        }
+      })
+      .catch((error) => {
+        this.props.setMessage("Erro ao criar usuário")
+      });
   }
 
   async function updateData() {
-    const storageRef = storageRef(storage, `users/${user.email}/about_me.txt`)
-
-    await uploadString(storageRef, user.aboutMe)
-      .then(() => console.log("Descrição adicionada"))
-      .catch(error => console.log("Erro ao adicionar descrição"))
-
-    let downloadUrl
+    let downloadUrl 
+  
+    if (user.aboutMe) {
+      await uploadDescription()
+    }
 
     if (user.picture) {
       downloadUrl = await getProfilePic()
     }
 
     updateProfile(getAuth().currentUser, {displayName: user.displayName || "", photoURL: downloadUrl || ""})
-    .then(() => {
-      //setMessage("Dados atualizados")
-      console.log("Dados atualizados")
-    })
-    .catch(error => {
-      //setMessage("Erro ao atualizar dados")
-      console.log(error.message)
-    })
+      .then(() => {
+        this.props.setMessage("Dados atualizados")
+      })
+      .catch(error => {
+        this.props.setMessage("Falha ao atualizar dados")
+      })
   }
 
   async function getProfilePic() {
-    let imageUrl
     const imageRef = storageRef(storage, `users/${user.email}/profile_pictures/1`)
+    let imageUrl
 
     await uploadBytes(imageRef, user.picture)
-    .then(async () => {
+      .then(async () => {
 
-      await getDownloadURL(imageRef)
-      .then(url => imageUrl = url)
-    })
-    .catch((error) => {
-      console.log("Erro ao subir imagem")
-      console.log(error.message)
-      //setMessage("Erro ao adicionar foto de perfil")
-
-      imageUrl = null
-    })
+        await getDownloadURL(imageRef)
+          .then(url => imageUrl = url)
+          .catch(error => this.props.setMessage("Erro"))
+      })
+      .catch((error) => {
+        this.props.setMessage("Erro ao subir mensagem")
+      })
 
     return imageUrl
   }
 
+  async function uploadDescription() {
+    const storageRef = storageRef(getStorage(), `users/${user.email}/about_me.txt`)
+
+    await uploadString(storageRef, user.aboutMe)
+      .then(() => console.log("Descrição adicionada"))
+      .catch(error => console.log("Erro ao adicionar descrição"))
+  }
+
   return (
-    <>
-    <h1 className="step-title">Criando usuário</h1>
     <div className="step">
+      <h1 className="step-title">Criando usuário</h1>
       <h2>Tenis</h2>
     </div>
-    </>
   )
 }
-
-export default Step3

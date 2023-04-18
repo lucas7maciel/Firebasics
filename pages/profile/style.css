@@ -51,3 +51,10 @@
   width: 70%;
   margin-bottom: 20px;
 }
+
+.alter-picture {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 auto;
+}

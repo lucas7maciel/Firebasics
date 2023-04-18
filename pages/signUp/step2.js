@@ -1,46 +1,41 @@
-import { useState, forwardRef, useImperativeHandle } from "react"
+import { Component } from "react"
 import { ImagePicker } from "../../components/imagePicker"
 
-const Step2 = forwardRef((props, ref) => {
-  const [picture, setPicture] = useState("")
-  const [aboutMe, setAboutMe] = useState("a")
+export class Step2 extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      picture: "",
+      aboutMe: ""
+    }
+  }
 
-  useImperativeHandle(ref, () => ({
-    verify: verify,
-    getData: getData
-  }));
+  getData() {
+    return {
+      picture: this.state.picture,
+      aboutMe: this.state.aboutMe
+    }
+  }
 
-  function verify() {
-    //formatos inválidos
-    if (picture && !picture.type.includes("image")) {
-      console.log(picture)
-      console.log("O formato do arquivo deve ser uma imagem")
+  checkConditions() {
+    if (this.state.picture && !this.state.picture.type.includes("image")) {
+      this.props.setMessage("O arquivo deve ser uma imagem")
       return false
-    } 
+    }
 
     return true
   }
 
-  function getData() {
-    return {
-      picture: picture,
-      aboutMe: aboutMe
-    }
-  }
-
-  return (
-    <>
-    <h1 className="step-title">Informações adicionais</h1>
+  render() {
+    return (
     <div className="step">
+      <h1 className="step-title">Informações adicionais</h1>
       <div>
-        <ImagePicker picture={picture} changePicture={setPicture} />
+        <ImagePicker picture={this.state.picture} changePicture={null} />
 
         <label htmlFor="aboutMe">About me</label><br/>
-        <textarea id="aboutMe" row="5" columns="20" value={aboutMe} onChange={evt => setAboutMe(evt.target.value)} />
+        <textarea id="aboutMe" row="5" columns="20" value={this.state.aboutMe} onChange={evt => this.setState({aboutMe: evt.target.value})} />
       </div>
     </div>
-    </>
-  )
-})
-
-export default Step2
+  )}
+} 

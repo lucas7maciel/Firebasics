@@ -39,9 +39,9 @@ export const RecentPictures = (props) => {
   useEffect(() => console.log(recentPicsStages[stage]), [stage])
 
   return urlList.length > 0 ? (
-    <div className="container recent-pics">
+    <div className="recent-pics">
       <hr />
-      <h3>Recent pictures</h3>
+      <h3 style={{paddingTop: 0, marginTop: 0}}>Recent pictures</h3>
       <div className="images-container">
         {urlList.map((url, index) => {
           return <ImageExample imageURL={url} changeState={props.changeState} key={index} />}

@@ -7,7 +7,7 @@ import { AlterPicture } from "./alterPicture";
 import { AlterPassword } from "./alterPassword";
 import { AlterName } from "./alterName";
 import VerifyEmail from "./verifyEmail";
-import WindowPopUp from "../../components/windowPopUp";
+import {WindowPopUp} from "../../components/windowPopUp";
 
 import "../../functions/styles.css"
 import "./style.css"

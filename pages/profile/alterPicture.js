@@ -5,6 +5,8 @@ import { updateProfile, getAuth } from "firebase/auth"
 import { RecentPictures } from "./recentPictures.js"
 import { buttonStyle } from "../../functions/stylePatterns"
 import { ImagePicker } from "../../components/imagePicker"
+import "../../functions/styles.css"
+import "./style.css"
 
 export const AlterPicture = (props) => {
   const [newPicture, setNewPicture] = useState(props.pictureUrl)
@@ -59,10 +61,10 @@ export const AlterPicture = (props) => {
   }
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center', margin: '0 auto'}}>
+    <div className="alter-picture">
       <ImagePicker picture={newPicture} changePicture={setNewPicture} />
       <RecentPictures email={props.email} changeState={setNewPicture} />
-      <button style={buttonStyle} type="button" onClick={() => updatePicture()}>Alter Picture</button>
+      <button type="button" onClick={() => updatePicture()}>Alter Picture</button>
       <p>{message}</p>
     </div>
   )

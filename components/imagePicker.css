@@ -1,13 +1,9 @@
 
 .overlay-container {
   display: grid;
-
-  height: 150px;
-  width: 150px;
-  margin: 0 auto;
 }
 
-.overlay-container #picture, .overlay-container #edit {
+.overlay-container .picture, .overlay-container .edit {
   grid-row-start: 1;
   grid-column-start: 1;
   place-self: center;
@@ -16,11 +12,7 @@
   width: 150px;
 }
 
-.overlay-container #picture {
-  object-fit: cover;
-}
-
-.overlay-container #edit {
+.overlay-container .edit {
   opacity: 0%;
 
   display: flex;
@@ -28,19 +20,22 @@
   justify-content: center;
 }
 
-.overlay-container #edit:hover {
+.overlay-container .edit:hover {
   opacity: 100%;
 
   background-color: rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  
 }
 
-.overlay-container #edit img {
+.overlay-container .edit img {
   height: 70px;
   width: 70px;
 }
 
-#refInput {
+.overlay-container .picture {
+  object-fit: cover;
+}
+
+.refInput {
   display: none;
 }

@@ -1,12 +1,15 @@
 
-.container {
+.recent-pics {
   width: 240px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.recent-pictures {
-  margin-top: 15px;
-  width: 15px;
-  transition: height 2s ease-in;
+.recent-pics hr {
+  width: 100%;
 }
 
 .images-container {

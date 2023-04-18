@@ -13,6 +13,7 @@
   width: 180px;
   height: 180px;
   border-radius: 90px;
+  
   border: solid white;
 
   background-color: white;
@@ -27,11 +28,14 @@
   justify-content: center;
 }
 
-.form .checkbox {
+.form .keep-logged {
+  width: 100%;
+
   display: flex;
-  align-items: start;
+  align-items: center;
 }
 
-.form .checkbox input {
-  height: 20px;
+.form .keep-logged input {
+  max-height: 15px;
+  max-width: 15px;
 }

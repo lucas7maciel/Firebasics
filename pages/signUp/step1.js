@@ -1,75 +1,71 @@
-import { useState, forwardRef, useImperativeHandle, useRef, useEffect } from "react"
-import PasswordInput from "../../components/passwordInput"
+import { Component } from "react"
+import { emailIsValid } from "../../functions/emailIsValid"
+import {PasswordInput} from "../../components/passwordInput"
 
-const Step1 = forwardRef((props, ref) => {
-  const [profilePic, setProfilePic] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-  const [displayName, setDisplayName] = useState("Luquinhas")
-  const [email, setEmail] = useState("a@gmail.com")
-  const [password, setPassword] = useState("123123123")
-  const [confPassword, setConfPassword] = useState("123123123")
-
-  useImperativeHandle(ref, () => ({
-    verify: verify,
-    getData: getData
-  }));
-
-  function verify() {
-    if (!emailIsValid(email)) {
-      console.log("Email inválido")
-      return false
+export class Step1 extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      displayName: "Luquinhas",
+      email: "a@gmail.com",
+      password: "123123123",
+      confPassword: "123123123"
     }
-
-    if (password.length < 6 || password.length > 12) {
-      console.log("Senha deve ter de 6 a 12 caracteres")
-      return false
-    }
-
-    if (password != confPassword) {
-      console.log("Senhas não conferem")
-      return false
-    }
-
-    return true
   }
 
-  function getData() {
+  getData() {
     return {
-      email: email,
-      password: password,
-      displayName: displayName,
-      profilePic: profilePic
+      email: this.state.email,
+      password: this.state.password,
+      displayName: this.state.displayName
     }
   }
 
-  function emailIsValid(email) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      return true
+  checkConditions() {
+    let conditionsOk = false
+
+    if (!this.state.email || !this.state.password || !this.state.confPassword) {
+      this.props.setMessage("Campos obrigatórios vazios")
     }
 
-    return false
+    else if (!emailIsValid(this.state.email)) {
+      this.props.setMessage("Email inválido")
+    }
+
+    else if (this.state.password.length < 6 || this.state.password.length > 12) {
+      this.props.setMessage("Senha deve ter de 6 a 12 caracteres")
+    }
+
+    else if (this.state.password !== this.state.confPassword) {
+      this.props.setMessage("Senhas não conferem")
+    }
+
+    else {
+      conditionsOk = true
+    }
+
+    return conditionsOk
   }
 
-  return (
-    <>
-    <h1 className="step-title">Dados pessoais</h1>
-    <div className="step">
+  render() {
+    return (
+      <div className="step">
+      <h1 className="step-title">Dados pessoais</h1>
 
       <form style={{display: 'flex', flexDirection: 'column', alignItems: "start"}}>
         <label htmlFor="displayName">Display Name</label>
-        <input type="text" placeholder="Display Name" id="displayName" value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
+        <input type="text" placeholder="Display Name" id="displayName" value={this.state.displayName} onChange={evt => this.setState({displayName: evt.target.value})} />
 
         <label style={{marginTop: 5}} htmlFor="email">Email</label>
-        <input type="text" placeholder="Email" id="email" value={email} onChange={evt => setEmail(evt.target.value)} />
+        <input type="text" placeholder="Email" id="email" value={this.state.email} onChange={evt => this.setState({email: evt.target.value})} />
 
         <label style={{marginTop: 5}} htmlFor="password">Password</label>
-        <PasswordInput placeholder="Password" id="password" Value={password} changeValue={setPassword} />
+        <PasswordInput placeholder="Password" id="password" Value={this.state.password} changeValue={null} />
 
         <label style={{marginTop: 5}} htmlFor="confPassword">Confirm Password</label>
-        <PasswordInput placeholder="Confirm password" id="confPassword" Value={confPassword} changeValue={setConfPassword} />
+        <PasswordInput placeholder="Confirm password" id="confPassword" Value={this.state.confPassword} changeValue={null} />
       </form>
     </div>
-    </>
-  )
-})
-
- export default Step1
+    )
+  }
+}
