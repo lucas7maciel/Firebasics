@@ -1,7 +1,8 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import "./functions/firebase"
 
 import {SignIn} from './pages/signIn/page'
-import SignUp from './pages/signUp/page'
+import {SignUp} from './pages/signUp/page'
 import Profile from './pages/profile/page'
 import {RecoverPasw} from './pages/recoverPasw/page'
 

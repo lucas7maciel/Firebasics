@@ -8,8 +8,8 @@ import "./page.css"
 
 export const SignIn = () => {
   const [message, setMessage] = useState("Seja bem vindo")
-  const [email, setEmail] = useState("lucas@gmail.com")
-  const [passw, setPassw] = useState("123456")
+  const [email, setEmail] = useState("lucasmacielcontato@gmail.com")
+  const [passw, setPassw] = useState("123123")
   const [keepLogged, setKeepLogged] = useState(true)
 
   const navigate = useNavigate()

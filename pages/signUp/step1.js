@@ -50,20 +50,36 @@ export class Step1 extends Component {
   render() {
     return (
       <div className="step">
-      <h1 className="step-title">Dados pessoais</h1>
-
-      <form style={{display: 'flex', flexDirection: 'column', alignItems: "start"}}>
+      <form className="step-form">
         <label htmlFor="displayName">Display Name</label>
-        <input type="text" placeholder="Display Name" id="displayName" value={this.state.displayName} onChange={evt => this.setState({displayName: evt.target.value})} />
+        <input 
+          type="text" 
+          placeholder="Display Name" 
+          value={this.state.displayName}
+          onChange={evt => this.setState({displayName: evt.target.value})} 
+        />
 
-        <label style={{marginTop: 5}} htmlFor="email">Email</label>
-        <input type="text" placeholder="Email" id="email" value={this.state.email} onChange={evt => this.setState({email: evt.target.value})} />
+        <label htmlFor="email">Email</label>
+        <input 
+          type="text"
+          placeholder="Email"
+          value={this.state.email}
+          onChange={evt => this.setState({email: evt.target.value})} 
+        />
 
-        <label style={{marginTop: 5}} htmlFor="password">Password</label>
-        <PasswordInput placeholder="Password" id="password" Value={this.state.password} changeValue={null} />
+        <label htmlFor="password">Password</label>
+        <PasswordInput 
+          placeholder="Password"
+          Value={this.state.password} 
+          changeValue={null} 
+        />
 
-        <label style={{marginTop: 5}} htmlFor="confPassword">Confirm Password</label>
-        <PasswordInput placeholder="Confirm password" id="confPassword" Value={this.state.confPassword} changeValue={null} />
+        <label htmlFor="confPassword">Confirm Password</label>
+        <PasswordInput 
+          placeholder="Confirm password"
+          Value={this.state.confPassword} 
+          changeValue={null}
+        />
       </form>
     </div>
     )

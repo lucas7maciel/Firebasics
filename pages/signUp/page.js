@@ -1,14 +1,12 @@
-import { useState, useRef, useEffect } from "react"
-import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
-import { getStorage, ref, uploadString} from "firebase/storage"
+import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { Step1 } from "./step1"
 import { Step2 } from "./step2"
 import { Step3 } from "./step3"
 import "../../functions/styles.css"
-import "./page.css"
+import "./steps.css"
 
-const SignUp = () => {
+export const SignUp = () => {
   const [message, setMessage] = useState("Digite aqui os seus dados")
   const [currStep, setCurrStep] = useState(1)
   const [userData, setUserData] = useState({})
@@ -28,17 +26,14 @@ const SignUp = () => {
       component: <Step2 setMessage={setMessage} ref={step2Ref} />,
       ref: step2Ref
     },
-    3: {component: <Step3 user={userData} ref={step3Ref} />}
+    3: {component: <Step3 setMessage={setMessage} user={userData} ref={step3Ref} />}
   }
 
   function next() {
-    //comentar
-    if (currStep >= Object.keys(steps).length) return
-
-    const step = steps[currStep].component
-
     //checks if the conditions of the step were satisfied
     //if so, they are added to the userData state and go to the next one
+    const step = steps[currStep].component
+
     if (!step.ref?.current.checkConditions()) return
 
     setUserData(() => {
@@ -46,12 +41,6 @@ const SignUp = () => {
     })
 
     setCurrStep(currStep => currStep + 1)
-  }
-
-  function back() {
-    if (currStep == 1) navigate("/")
-  
-    setCurrStep(currStep => currStep - 1)
   }
 
   return (
@@ -63,13 +52,28 @@ const SignUp = () => {
 
       <p className="message">{message}</p>
 
-      <div className="button">
-        <button type="button" onClick={() => back()}>Voltar</button>
-        <button type="button" onClick={() => next()}>Próximo</button>
+      <div className="buttons">
+        <button 
+          type="button" 
+          disabled={currStep <= 1} 
+          onClick={() => setCurrStep(step => step - 1)}
+          >Voltar
+        </button>
+
+        <button 
+          type="button"
+          disabled={currStep >= Object.keys(steps).length}
+          onClick={() => next()}
+          >Próximo
+        </button>
+
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          >Login
+        </button>
       </div>
     </div>
     </div>
   )
 }
-
-export default SignUp

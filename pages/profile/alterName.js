@@ -11,9 +11,6 @@ export const AlterName = () => {
     updateProfile(getAuth().currentUser, {displayName: displayName})
       .then(() => setMessage("Nome alterado com sucesso!"))
       .catch(error => {
-        console.log("Erro ao alterar nome")
-        console.log(error)
-
         setMessage("Erro ao alterar nome")
       })
   }
@@ -35,11 +32,4 @@ export const AlterName = () => {
       <button type="button" onClick={() => changeName()}>Alter Name</button>
     </div>
   )
-}
-
-const containerStyle = {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  transition: "opacity 5s ease-out"
 }

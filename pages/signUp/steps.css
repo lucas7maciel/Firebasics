@@ -1,0 +1,25 @@
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 280px;
+}
+
+/*step 1*/
+.step-form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.step-form label {
+  margin-top: 5px;
+}
+
+/*step 2*/
+.aboutMe-label {
+  padding-top: 50px;
+}

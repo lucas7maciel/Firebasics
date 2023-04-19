@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react"
 import { getStorage, ref as storageRef, listAll, getDownloadURL } from "firebase/storage"
-
-import "../../functions/styles.css"
 import "./recentPictures.css"
 
 export const RecentPictures = (props) => {
-  const [urlList, setUrlList] = useState([])
   const [stage, setStage] = useState("Loading")
+  const [urlList, setUrlList] = useState([])
 
+  const recentPicsStages = {Loading: <Loading />, NoPics: <NoPics />, Error: <Error />}
   const folderRef = storageRef(getStorage(), `users/${props.email}/profile_pictures`)
-  const recentPicsStages = {
-    Loading: <Loading />,
-    NoPics: <NoPics />,
-    Error: <Error />
-  }
 
-  useEffect(() => {
+  useEffect(() => getPics(), [])
+
+  function getPics() {
     listAll(folderRef)
       .then((res) => {
+        //get the last photos of the user (max 3)
         let items = res.items.slice(0, -1)
 
         if (items.length <= 1) {
@@ -26,17 +23,15 @@ export const RecentPictures = (props) => {
           items = items.slice(-3)
         }
 
+        //get their download links to render in the component
         items.forEach((item) => {
           getDownloadURL(item)
-            .then(url => {
-              setUrlList(urlList => [...urlList, url]) 
-            })
+            .then(url => setUrlList(urlList => [...urlList, url]))
+
       })}).catch(error => {
         setStage(() => "Error")
       })
-  }, [])
-
-  useEffect(() => console.log(recentPicsStages[stage]), [stage])
+  }
 
   return urlList.length > 0 ? (
     <div className="recent-pics">
@@ -50,6 +45,17 @@ export const RecentPictures = (props) => {
       <hr />
     </div>
   ) : recentPicsStages[stage]
+}
+
+const ImageExample = (props) => {
+  return (
+    <div className="image-example" onClick={() => props.changeState(props.imageURL)}>
+      <img 
+        src={props.imageURL} 
+        alt="Example image" 
+      />
+    </div>
+  )
 }
 
 const Loading = () => (
@@ -71,15 +77,3 @@ const NoPics = () => (
     <h3>No pictures</h3>
   </div>
 )
-
-
-const ImageExample = (props) => {
-  return (
-    <div className="image-example" onClick={() => props.changeState(props.imageURL)}>
-      <img 
-        src={props.imageURL} 
-        alt="Example image" 
-      />
-    </div>
-  )
-}

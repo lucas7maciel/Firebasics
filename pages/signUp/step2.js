@@ -29,12 +29,17 @@ export class Step2 extends Component {
   render() {
     return (
     <div className="step">
-      <h1 className="step-title">Informações adicionais</h1>
       <div>
         <ImagePicker picture={this.state.picture} changePicture={null} />
 
-        <label htmlFor="aboutMe">About me</label><br/>
-        <textarea id="aboutMe" row="5" columns="20" value={this.state.aboutMe} onChange={evt => this.setState({aboutMe: evt.target.value})} />
+        <hr />
+
+        <label className="aboutMe-label" htmlFor="aboutMe">About me</label><br/>
+        <textarea 
+          rows="4" columns="25" 
+          value={this.state.aboutMe} 
+          onChange={evt => this.setState({aboutMe: evt.target.value})} 
+        />
       </div>
     </div>
   )}

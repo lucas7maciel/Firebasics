@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { getStorage, ref as storageRef, listAll, uploadBytes, getDownloadURL } from "firebase/storage"
 import { updateProfile, getAuth } from "firebase/auth"
 
 import { RecentPictures } from "./recentPictures.js"
-import { buttonStyle } from "../../functions/stylePatterns"
 import { ImagePicker } from "../../components/imagePicker"
-import "../../functions/styles.css"
-import "./style.css"
 
 export const AlterPicture = (props) => {
   const [newPicture, setNewPicture] = useState(props.pictureUrl)
@@ -31,7 +28,7 @@ export const AlterPicture = (props) => {
   async function uploadPicture() {
     //checa quantas imagens tem
     const folderRef = storageRef(getStorage(), `users/${props.email}/profile_pictures`)
-    let newIndex
+    let newIndex, newPhotoURL
 
     await listAll(folderRef)
       .then(res => newIndex = res.items.length + 1)
@@ -40,7 +37,6 @@ export const AlterPicture = (props) => {
     //sobe a ultima com uma quantidade a mais
     if (!newIndex) return
 
-    let newPhotoURL
     const ref = storageRef(getStorage(), `users/${props.email}/profile_pictures/${newIndex}`)
 
     await uploadBytes(ref, newPicture)

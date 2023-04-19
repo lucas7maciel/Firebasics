@@ -1,24 +1,15 @@
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { getBytes, getDownloadURL, getStorage, getStream, ref } from "firebase/storage";
-
 import { AlterPicture } from "./alterPicture";
 import { AlterPassword } from "./alterPassword";
 import { AlterName } from "./alterName";
 import VerifyEmail from "./verifyEmail";
 import {WindowPopUp} from "../../components/windowPopUp";
-
-import "../../functions/styles.css"
-import "./style.css"
-
+import "./page.css"
 
 const Profile = () => {
   const [user, setUser] = useState(getAuth().currentUser)
-
-  if (!user) {
-    getAuth().onAuthStateChanged(user => setUser(user))
-  }
 
   const [infoLoaded, setInfoLoaded] = useState(false)
   const [email, setEmail] = useState("")
@@ -33,12 +24,18 @@ const Profile = () => {
 
   const navigate = useNavigate()
 
+  if (!user) {
+    getAuth().onAuthStateChanged(user => setUser(user))
+  }
+
   useEffect(() => {
+    //If the user has checked the "Keep logged" option 
+    //and has entered the site again
     if (!user) return
 
-    const keepLogged = localStorage.getItem("keepLogged")
+    const userLogged = localStorage.getItem("keepLogged")
 
-    if(keepLogged && keepLogged !== user.email) {
+    if(userLogged && userLogged !== user.email) {
       signOut()
     } else if (!infoLoaded) {
       loadInfo()
@@ -46,6 +43,8 @@ const Profile = () => {
   }, [user])
 
   useEffect(() => {
+    //If a pop-up has been closed and some information has changed
+    //it is dynamically updated
     if (!windowActive && infoLoaded) {
       loadInfo()
     }
@@ -54,30 +53,21 @@ const Profile = () => {
   function loadInfo() {
     setEmailVerified(user.emailVerified)
     setEmail(user.email)
-    setPhotoUrl(user.photoURL) //CAMINHO PARA "SEM FOTO"
-    setDisplayName(user.displayName || "(Sem nome)")
+    setPhotoUrl(user.photoURL)
+    setDisplayName(user.displayName || "(No Name)")
+    //getDescription() working on this
 
     setInfoLoaded(true)
-
-    getDescription()
-  }
-
-  async function getDescription() {
-    const descriptionRef = ref(getStorage(), `users/${user.email}/about_me.txt`)
-
-    console.log("Pegando descrição")
-
-    //const url = await getDownloadURL(descriptionRef)
-  }
-
-  function setWindowPopUp(content) {
-    setWindowContent(() => content)
-    setWindowActive(() => true)
   }
 
   function signOut() {
     window.localStorage.removeItem("keepLogged")
     navigate("/")
+  }
+
+  function setWindowPopUp(content) {
+    setWindowContent(() => content)
+    setWindowActive(() => true)
   }
 
   return (
@@ -89,7 +79,11 @@ const Profile = () => {
           >Exit
       </button>
     <div className="content">
-      <WindowPopUp content={windowContent} active={windowActive} setActive={setWindowActive} />
+      <WindowPopUp 
+        content={windowContent} 
+        active={windowActive} 
+        setActive={setWindowActive} 
+      />
 
       <div className="profile-data">
         <h1>Profile Page</h1>
@@ -99,7 +93,7 @@ const Profile = () => {
         <VerifyEmail verified={emailVerified} changeMessage={setMessage} />
       </div>
 
-      <hr id="mainHr" />
+      <hr className="mainHr" />
 
       <div className="options">
         <button type="button" onClick={() => setWindowPopUp(<AlterName />)}>Alter Name</button>

@@ -1,7 +1,9 @@
-/*export const fontColor = null
 
-export const mainColor = "#5345ED"
-export const secondaryColor = "white"*/
+/*This script stores general style patterns*/
+:root {
+  --mainColor: #5345ED;
+  --secondaryColor: white;
+}
 
 .page {
   width: 100%;
@@ -11,7 +13,7 @@ export const secondaryColor = "white"*/
   align-items: center;
   justify-content: center;
 
-  background-color: #5345ED;
+  background-color: var(--mainColor);
 }
 
 .page-title {
@@ -33,10 +35,14 @@ export const secondaryColor = "white"*/
 
   width: 750px;
 
-  border: solid #FFFFF7;
+  border: solid var(--secondaryColor);
   border-radius: 10px;
 
-  background-color: white;
+  background-color: var(--secondaryColor);
+}
+
+.center {
+  text-align: center;
 }
 
 .buttons {
@@ -46,8 +52,8 @@ export const secondaryColor = "white"*/
 button {
   padding: 7px 20px 7px 20px;
 
-  background-color: #5345ED; /*Main color*/
-  color: white;
+  background-color: var(--mainColor);
+  color: var(--secondaryColor);
   font-weight: bold;
 
   border-radius: 7px;
@@ -63,5 +69,5 @@ input {
   border: solid gray 2px;
   border-radius: 4px;
 
-  outline-color: #5345ED;
+  outline-color: var(--mainColor);
 }

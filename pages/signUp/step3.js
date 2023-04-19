@@ -10,14 +10,14 @@ export const Step3 = (props) => {
   function createUser() {
     createUserWithEmailAndPassword(getAuth(), props.user.email, props.user.password)
       .then(() => {
-        this.props.setMessage("Usuário criado, atualizando dados")
+        setMessage("Usuário criado, atualizando dados")
         
         if (props.user.displayName || props.user.picture) {
           updateData()
         }
       })
       .catch((error) => {
-        this.props.setMessage("Erro ao criar usuário")
+        setMessage("Erro ao criar usuário")
       });
   }
 
@@ -34,10 +34,10 @@ export const Step3 = (props) => {
 
     updateProfile(getAuth().currentUser, {displayName: user.displayName || "", photoURL: downloadUrl || ""})
       .then(() => {
-        this.props.setMessage("Dados atualizados")
+        setMessage("Dados atualizados")
       })
       .catch(error => {
-        this.props.setMessage("Falha ao atualizar dados")
+        setMessage("Falha ao atualizar dados")
       })
   }
 
@@ -50,10 +50,10 @@ export const Step3 = (props) => {
 
         await getDownloadURL(imageRef)
           .then(url => imageUrl = url)
-          .catch(error => this.props.setMessage("Erro"))
+          .catch(error => setMessage("Erro"))
       })
       .catch((error) => {
-        this.props.setMessage("Erro ao subir mensagem")
+        setMessage("Erro ao subir mensagem")
       })
 
     return imageUrl
@@ -69,8 +69,7 @@ export const Step3 = (props) => {
 
   return (
     <div className="step">
-      <h1 className="step-title">Criando usuário</h1>
-      <h2>Tenis</h2>
+      <h2>{message}</h2>
     </div>
   )
 }
