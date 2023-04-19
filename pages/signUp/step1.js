@@ -6,10 +6,10 @@ export class Step1 extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      displayName: "Luquinhas",
-      email: "a@gmail.com",
-      password: "123123123",
-      confPassword: "123123123"
+      displayName: "",
+      email: "",
+      password: "",
+      confPassword: ""
     }
   }
 
