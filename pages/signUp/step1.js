@@ -71,14 +71,14 @@ export class Step1 extends Component {
         <PasswordInput 
           placeholder="Password"
           Value={this.state.password} 
-          changeValue={null} 
+          changeValue={(newValue) => this.setState({password: newValue})} 
         />
 
         <label htmlFor="confPassword">Confirm Password</label>
         <PasswordInput 
           placeholder="Confirm password"
           Value={this.state.confPassword} 
-          changeValue={null}
+          changeValue={(newValue) => this.setState({confPassword: newValue})}
         />
       </form>
     </div>

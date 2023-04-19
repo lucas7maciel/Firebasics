@@ -33,18 +33,21 @@ export const RecentPictures = (props) => {
       })
   }
 
-  return urlList.length > 0 ? (
-    <div className="recent-pics">
-      <hr />
-      <h3 style={{paddingTop: 0, marginTop: 0}}>Recent pictures</h3>
+  return urlList.length > 0 ? 
+    (<div className="recent-pics">
+      <h3 className="title">Recent pictures</h3>
+
       <div className="images-container">
         {urlList.map((url, index) => {
           return <ImageExample imageURL={url} changeState={props.changeState} key={index} />}
         )}
       </div>
-      <hr />
     </div>
-  ) : recentPicsStages[stage]
+    ) : 
+    (<div className="recent-pics">
+      {recentPicsStages[stage]}
+    </div>
+    )
 }
 
 const ImageExample = (props) => {
@@ -59,21 +62,11 @@ const ImageExample = (props) => {
 }
 
 const Loading = () => (
-  <div className="container loading">
-    <hr />
-    <img id="loading-icon" src="https://www.freeiconspng.com/uploads/load-icon-png-8.png" alt="Loading" />
-    <hr />
-  </div>
+  <img 
+    className="loading-icon"
+    src="https://www.freeiconspng.com/uploads/load-icon-png-8.png"
+    alt="Loading" 
+  />
 )
-
-const Error = () => (
-  <div className="container">
-    <h3>Erro ao encontrar imagens</h3>
-  </div>
-)
-
-const NoPics = () => (
-  <div className="container">
-    <h3>No pictures</h3>
-  </div>
-)
+const Error = () => (<h3>Erro ao encontrar imagens</h3>)
+const NoPics = () => (<h3>No pictures</h3>)

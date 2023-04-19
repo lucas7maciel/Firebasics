@@ -30,7 +30,10 @@ export class Step2 extends Component {
     return (
     <div className="step">
       <div>
-        <ImagePicker picture={this.state.picture} changePicture={null} />
+        <ImagePicker 
+          picture={this.state.picture}
+          changePicture={(newPic) => this.setState({picture: newPic})}
+        />
 
         <hr />
 

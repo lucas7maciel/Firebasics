@@ -6,9 +6,10 @@ import { AlterPassword } from "./alterPassword";
 import { AlterName } from "./alterName";
 import VerifyEmail from "./verifyEmail";
 import {WindowPopUp} from "../../components/windowPopUp";
+import noPicture from "../../assets/no_picture.jpg"
 import "./page.css"
 
-const Profile = () => {
+export const Profile = () => {
   const [user, setUser] = useState(getAuth().currentUser)
 
   const [infoLoaded, setInfoLoaded] = useState(false)
@@ -87,18 +88,39 @@ const Profile = () => {
 
       <div className="profile-data">
         <h1>Profile Page</h1>
-        <img src={photoUrl} alt="Profile picture" />
+        <img 
+          src={photoUrl || noPicture} 
+          alt="Profile picture" 
+        />
         <h4>{displayName}</h4>
         <h4>{email}</h4>
-        <VerifyEmail verified={emailVerified} changeMessage={setMessage} />
+        <VerifyEmail 
+          verified={emailVerified}
+          changeMessage={setMessage}
+        />
       </div>
 
       <hr className="mainHr" />
 
       <div className="options">
-        <button type="button" onClick={() => setWindowPopUp(<AlterName />)}>Alter Name</button>
-        <button type="button" onClick={() => setWindowPopUp(<AlterPicture pictureUrl={photoUrl} email={email} />)}>Alter Picture</button>
-        <button type="button" onClick={() => setWindowPopUp(<AlterPassword  />)}>Alter Password</button>
+        <button 
+          type="button" 
+          onClick={() => 
+          setWindowPopUp(<AlterName />)}
+          >Alter Name
+        </button>
+
+        <button 
+          type="button"
+          onClick={() => setWindowPopUp(<AlterPicture pictureUrl={photoUrl} email={email} />)}
+          >Alter Picture
+        </button>
+
+        <button 
+          type="button" 
+          onClick={() => setWindowPopUp(<AlterPassword  />)}
+          >Alter Password
+        </button>
       </div>
 
       <p className="message">{message}</p>
@@ -106,5 +128,3 @@ const Profile = () => {
     </div>
   )
 }
-
-export default Profile

@@ -65,7 +65,7 @@ export const SignUp = () => {
           disabled={currStep >= Object.keys(steps).length}
           onClick={() => next()}
           >Próximo
-        </button>
+        </button><br/>
 
         <button
           type="button"

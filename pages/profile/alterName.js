@@ -9,15 +9,15 @@ export const AlterName = () => {
     if (!checkName()) return
 
     updateProfile(getAuth().currentUser, {displayName: displayName})
-      .then(() => setMessage("Nome alterado com sucesso!"))
+      .then(() => setMessage("Name changed!"))
       .catch(error => {
-        setMessage("Erro ao alterar nome")
+        setMessage(error.message)
       })
   }
 
   function checkName() {
     if (!displayName) {
-      setMessage("Nome vazio")
+      setMessage("Empty name")
       return false
     }
 

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { emailIsValid } from "../../functions/emailIsValid";
-import "../../functions/styles.css"
 
 export const RecoverPasw = () => {
   const [email, setEmail] = useState("")
@@ -43,7 +42,7 @@ export const RecoverPasw = () => {
       <p className="message">{message}</p>
 
       <div className="buttons">
-        <button type="button" onClick={() => sendLink()}>Enviar Link</button>
+        <button type="button" onClick={() => sendLink()}>Enviar Link</button><br/>
         <button type="button" onClick={() => navigate("/")}>Voltar</button>
       </div>
     </div>

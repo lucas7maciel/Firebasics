@@ -59,7 +59,9 @@ export const AlterPicture = (props) => {
   return (
     <div className="alter-picture">
       <ImagePicker picture={newPicture} changePicture={setNewPicture} />
+      <hr/>
       <RecentPictures email={props.email} changeState={setNewPicture} />
+      <hr/>
       <button type="button" onClick={() => updatePicture()}>Alter Picture</button>
       <p>{message}</p>
     </div>

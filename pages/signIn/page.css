@@ -19,6 +19,10 @@
   background-color: white;
 }
 
+.signIn.content {
+  padding-top: 110px;
+}
+
 .form {
   width: 300px;
   
@@ -28,8 +32,14 @@
   justify-content: center;
 }
 
+.form input {
+  margin-bottom: 5px;
+}
+
 .form .keep-logged {
   width: 100%;
+
+  margin-top: 3px;
 
   display: flex;
   align-items: center;

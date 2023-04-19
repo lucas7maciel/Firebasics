@@ -8,7 +8,7 @@ export const PasswordInput = (props) => {
   const [onFocus, setOnFocus] = useState(false)
 
   return (
-    <div className={`container ${onFocus ? "focused" : ""}`}>
+    <div className={`password-input ${onFocus ? "focused" : ""}`}>
       <input
         type={visible ? "text" : "password"} 
         onFocus={() => setOnFocus(true)}

@@ -1,6 +1,6 @@
-
 .recent-pics {
   width: 240px;
+  min-height: 120px;
   
   display: flex;
   flex-direction: column;
@@ -8,8 +8,8 @@
   justify-content: center;
 }
 
-.recent-pics hr {
-  width: 100%;
+.recent-pics .title {
+  margin-top: 0px;
 }
 
 .images-container {
@@ -31,7 +31,7 @@
   cursor: pointer;
 }
 
-.loading #loading-icon {
+.recent-pics .loading-icon {
   height: 60px;
   width: 60px;
   animation: loading 1.5s infinite;

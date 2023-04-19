@@ -59,7 +59,7 @@ export const SignIn = () => {
       <img src="https://pic.onlinewebfonts.com/svg/img_337183.png" alt="Logo" />
     </div>
 
-    <div className="content">
+    <div className="signIn content">
       <div className="form">
         <input
           type="text" 
@@ -84,7 +84,7 @@ export const SignIn = () => {
   
       <div className="buttons">
         <button type="button" onClick={() => login()}>Entrar</button>
-        <button type="button" onClick={() => navigate("/signUp")}>Cadastrar</button>
+        <button type="button" onClick={() => navigate("/signUp")}>Cadastrar</button><br/>
         <button type="button" onClick={() => navigate("/recoverPasw")}>Esqueci a senha</button>
       </div>
     </div>
