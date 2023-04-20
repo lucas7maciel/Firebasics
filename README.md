@@ -1,7 +1,7 @@
 # Firebasics
 
 This Web App, made in React, was made to show the basic functions of Firebase, such as registering user emails, verification and the use of Storage for user data.
-Soon I intend to use this project to improve my Frontend skills, adding more complexity to animations and styling, as well as creating some new functionality with Firebase Storage.
+Soon I intend to use this project to improve my Frontend skills, adding more complexity to animations and styling, as well as creating some new functionality with Firebase Storage and JavaScript.
 
 Some photos of the App pages:
 
