@@ -28,7 +28,8 @@ export const RecentPictures = (props) => {
           getDownloadURL(item)
             .then(url => setUrlList(urlList => [...urlList, url]))
 
-      })}).catch(error => {
+      })}).catch((error) => {
+        props.setMessage(error.message)
         setStage(() => "Error")
       })
   }
@@ -38,8 +39,12 @@ export const RecentPictures = (props) => {
       <h3 className="title">Recent pictures</h3>
 
       <div className="images-container">
-        {urlList.map((url, index) => {
-          return <ImageExample imageURL={url} changeState={props.changeState} key={index} />}
+        {urlList.map((url, index) => (
+          <ImageExample 
+            imageURL={url} 
+            changePicture={props.changePicture} 
+            key={index} 
+          />)
         )}
       </div>
     </div>
@@ -52,7 +57,7 @@ export const RecentPictures = (props) => {
 
 const ImageExample = (props) => {
   return (
-    <div className="image-example" onClick={() => props.changeState(props.imageURL)}>
+    <div className="image-example" onClick={() => props.changePicture(props.imageURL)}>
       <img 
         src={props.imageURL} 
         alt="Example image" 
@@ -68,5 +73,5 @@ const Loading = () => (
     alt="Loading" 
   />
 )
-const Error = () => (<h3>Erro ao encontrar imagens</h3>)
+const Error = () => (<h3>Error finding images</h3>)
 const NoPics = () => (<h3>No pictures</h3>)

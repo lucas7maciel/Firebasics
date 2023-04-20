@@ -7,7 +7,24 @@ export class ImagePicker extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {isFile: this.isFile()}
     this.filePicker = createRef()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.picture === this.props.picture) return
+    
+    this.setState({
+      isFile: this.isFile()
+    })
+  }
+
+  isFile() {
+    if (this.props.picture && typeof(this.props.picture) === "object") {
+      return true
+    }
+
+    return false
   }
 
   render() {
@@ -15,8 +32,8 @@ export class ImagePicker extends Component {
     <div className="overlay-container">
       <img className="picture"
         src={
-          (typeof(this.props.picture) === "object" ? 
-            URL.createObjectURL(this.props.picture) : this.props.picture) || noPicture
+          (this.state.isFile ? 
+            URL.createObjectURL(this.props.picture) : this.props.picture || noPicture) 
         } 
       />
 
@@ -29,6 +46,7 @@ export class ImagePicker extends Component {
 
       <input className="refInput"
         type="file" 
+        accept="image/*"
         ref={this.filePicker} 
         onChange={evt => this.props.changePicture(evt.target.files[0])} 
       />

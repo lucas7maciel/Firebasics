@@ -7,7 +7,7 @@ import "../../functions/styles.css"
 import "./steps.css"
 
 export const SignUp = () => {
-  const [message, setMessage] = useState("Digite aqui os seus dados")
+  const [message, setMessage] = useState("Enter your data")
   const [currStep, setCurrStep] = useState(1)
   const [userData, setUserData] = useState({})
 
@@ -46,7 +46,7 @@ export const SignUp = () => {
   return (
     <div className="page">
     <div className="content">
-      <h1 className="page-title">CADASTRO</h1>
+      <h1 className="page-title">SIGN UP</h1>
 
       {steps[currStep].component}
 
@@ -57,20 +57,20 @@ export const SignUp = () => {
           type="button" 
           disabled={currStep <= 1} 
           onClick={() => setCurrStep(step => step - 1)}
-          >Voltar
+          >Back
         </button>
 
         <button 
           type="button"
           disabled={currStep >= Object.keys(steps).length}
           onClick={() => next()}
-          >Próximo
+          >Next
         </button><br/>
 
         <button
           type="button"
           onClick={() => navigate("/")}
-          >Login
+          >Sign In
         </button>
       </div>
     </div>

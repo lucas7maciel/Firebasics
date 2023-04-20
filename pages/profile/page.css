@@ -42,7 +42,16 @@
   color: green;
 }
 
+/*alterName*/
+.alter-name {
+  width: 206px;
+}
+
 /*alterPassword*/
+.alter-password {
+  width: 195px;
+}
+
 .popup-form {
   display: flex;
   flex-direction: column;
@@ -56,6 +65,8 @@
 
 /*alterPicture*/
 .alter-picture {
+  width: 259px;
+
   display: flex;
   flex-direction: column;
   text-align: center;

@@ -3,7 +3,7 @@ import { useState } from "react"
 import { getAuth, reauthenticateWithCredential, updatePassword, EmailAuthProvider } from "firebase/auth"
 
 export const AlterPassword = () => {
-  const [message, setMessage] = useState("Mensage")
+  const [message, setMessage] = useState("Fill in the fields to change your password")
 
   const [oldPassw, setOldPassw] = useState("")
   const [newPassw, setNewPassw] = useState("")
@@ -14,9 +14,15 @@ export const AlterPassword = () => {
 
     if (!checkConditions(auth.currentUser.email)) return
 
+    setMessage("Changing password")
+
     updatePassword(auth.currentUser, newPassw)
-      .then(() => setMessage("Senha alterada com sucesso"))
-      .catch(() => setMessage("Erro ao alterar a senha"))     
+      .then(() => {
+        setMessage("Password changed successfully")
+      })
+      .catch(error => {
+        setMessage("Error when changing password:\n" + error.message)
+      })
   }
 
   async function checkConditions(email) {
@@ -25,22 +31,23 @@ export const AlterPassword = () => {
     let correctPassw = false
 
     await reauthenticateWithCredential(auth.currentUser, credential)
-      .then(() => correctPassw = true)
+      .then(() => {
+        correctPassw = true
+      })
       .catch(error => {
-        console.log(error)
-        setMessage("A senha informada não confere ou houve erro")
+        setMessage(error.message)
       })
 
 
     if (!correctPassw) {
-      setMessage("Senha incorreta")
+      setMessage("Incorrect password")
     }
     else if (newPassw !== confNewPassw) {
-      setMessage("Senhas não conferem")
-    } else if (!newPassw) {
-      setMessage("Senha vazia")
+      setMessage("Passwords do not match")
+    } else if (!oldPassw || !newPassw) {
+      setMessage("Empty field")
     } else if (newPassw.length > 6) {
-      setMessage("A senha deve ter ao menos 6 caracteres")
+      setMessage("Password must be at least 6 characters long")
     } else {
       conditionsOk = true
     }
@@ -49,7 +56,7 @@ export const AlterPassword = () => {
   }
 
   return (
-    <div className="center">
+    <div className="alter-password center">
       <h3>Enter the new password</h3>
       <form className="popup-form">
         <input 

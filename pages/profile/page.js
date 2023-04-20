@@ -17,7 +17,7 @@ export const Profile = () => {
   const [displayName, setDisplayName] = useState("")
   const [photoUrl, setPhotoUrl] = useState("")
   const [emailVerified, setEmailVerified] = useState(false)
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState("Welcome to your profile page")
 
   //window pop up
   const [windowContent, setWindowContent] = useState()
@@ -96,7 +96,7 @@ export const Profile = () => {
         <h4>{email}</h4>
         <VerifyEmail 
           verified={emailVerified}
-          changeMessage={setMessage}
+          setMessage={setMessage}
         />
       </div>
 

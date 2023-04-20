@@ -67,11 +67,15 @@ button {
   border: none;
 }
 
+button:disabled {
+  background-color: #C5C1FD;
+}
+
 input {
-  width: 100%;
+  width: calc(100% - 8px);;
   height: 34px;
 
-  padding: 0px 0px 0px 4px;
+  padding: 0px 4px 0px 4px;
 
   border: solid gray 2px;
   border-radius: 4px;

@@ -3,9 +3,11 @@ import { getAuth, sendEmailVerification } from "firebase/auth"
 const VerifyEmail = (props) => {
   function verifyEmail() {
     sendEmailVerification(getAuth().currentUser)
-      .then(() => props.changeMessage("Verificação enviada com sucesso"))
+      .then(() => {
+        props.setMessage("Verification sent to your email, confirm and refresh to get verified symbol")
+      })
       .catch(error => {
-        props.changeMessage("Erro ao enviar verificação")
+        props.setMessage("Error sending verification\n:" + error.message)
       })
   }
 
@@ -14,7 +16,7 @@ const VerifyEmail = (props) => {
   (<button 
     type="button" 
     onClick={() => verifyEmail()}
-    >Verificar email
+    >Verify email
   </button>
   )
 }

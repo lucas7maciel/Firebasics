@@ -7,7 +7,7 @@ import "../../functions/styles.css"
 import "./page.css"
 
 export const SignIn = () => {
-  const [message, setMessage] = useState("Seja bem vindo")
+  const [message, setMessage] = useState("Be welcome!")
   const [email, setEmail] = useState("")
   const [passw, setPassw] = useState("")
   const [keepLogged, setKeepLogged] = useState(true)
@@ -32,7 +32,7 @@ export const SignIn = () => {
         navigate("/profile")
       })
       .catch((error) => {
-        setMessage("Erro ao logar")
+        setMessage("Login error:\n" + error.message)
       });
   }
 
@@ -40,10 +40,10 @@ export const SignIn = () => {
     let allOk = false
 
     if (!email || !passw) {
-      setMessage("Campo vazio")
+      setMessage("Empty field")
     } 
     else if (!emailIsValid(email)) {
-      setMessage("Digite um email válido")
+      setMessage("Invalid email")
     } 
     else {
       allOk = true
@@ -71,7 +71,7 @@ export const SignIn = () => {
         <PasswordInput 
           Value={passw}
           changeValue={setPassw}
-          placeHolder="Senha"
+          placeHolder="Password"
         />
 
         <div className="keep-logged">
@@ -83,9 +83,9 @@ export const SignIn = () => {
       <p className="message">{message}</p>
   
       <div className="buttons">
-        <button type="button" onClick={() => login()}>Entrar</button>
-        <button type="button" onClick={() => navigate("/signUp")}>Cadastrar</button><br/>
-        <button type="button" onClick={() => navigate("/recoverPasw")}>Esqueci a senha</button>
+        <button type="button" onClick={() => login()}>Sign In</button>
+        <button type="button" onClick={() => navigate("/signUp")}>Sign Up</button><br/>
+        <button type="button" onClick={() => navigate("/recoverPasw")}>Forgot Password</button>
       </div>
     </div>
     </div>

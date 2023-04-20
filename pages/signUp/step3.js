@@ -17,13 +17,16 @@ export class Step3 extends Component {
   }
 
   createUser() {
+    this.setState({message: "Creating user..."})
+
     createUserWithEmailAndPassword(getAuth(), this.user.email, this.user.password)
-      .then(() => {
-        this.setState({message: "User created, updating data..."})
-        
+      .then(async () => {
         if (this.user.displayName || this.user.picture) {
-          this.updateData()
+          await this.updateData()
         }
+
+        this.setState({message: "Account ready to use"})
+        this.props.setMessage("Go back to the login page to sign in")
       })
       .catch((error) => {
         this.setState({message: "Error creating user..."})
@@ -33,6 +36,8 @@ export class Step3 extends Component {
 
   async updateData() {
     let downloadUrl 
+
+    this.setState({message: "Updating data..."})
 
     if (this.user.picture) {
       downloadUrl = await this.getProfilePic()
@@ -44,10 +49,6 @@ export class Step3 extends Component {
     }
 
     updateProfile(getAuth().currentUser, newData)
-      .then(() => {
-        this.setState({message: "Account ready to use"})
-        this.props.setMessage("Go back to the login page to sign in")
-      })
       .catch(error => {
         this.setState({message: "Failed to update data"})
         this.props.setMessage(error.message)
