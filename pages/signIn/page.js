@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { emailIsValid } from "../../functions/emailIsValid";
@@ -22,6 +22,8 @@ export const SignIn = () => {
 
   function login() {
     if (!conditionsOk()) return
+
+    setMessage("Entering...")
 
     signInWithEmailAndPassword(getAuth(), email, passw)
       .then(() => {
@@ -66,12 +68,22 @@ export const SignIn = () => {
           placeholder='Login' 
           value={email} 
           onChange={evt => setEmail(evt.target.value)}
+          onKeyDown={(evt) => {
+            if (evt.key == "Enter") {
+              login()
+            }
+          }}
         />
 
         <PasswordInput 
           Value={passw}
           changeValue={setPassw}
-          placeHolder="Password"
+          placeHolder="Password" 
+          onKeyDown={(evt) => {
+            if (evt.key == "Enter") {
+              login()
+            }
+          }}
         />
 
         <div className="keep-logged">

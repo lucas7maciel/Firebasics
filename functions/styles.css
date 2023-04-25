@@ -5,6 +5,10 @@
   --secondaryColor: white;
 }
 
+* {
+  font-family: 'Trebuchet MS';
+}
+
 .page {
   width: 100%;
 
@@ -69,6 +73,10 @@ button {
 
 button:disabled {
   background-color: #C5C1FD;
+}
+
+button:hover {
+  background-color: #3527cf;
 }
 
 input {

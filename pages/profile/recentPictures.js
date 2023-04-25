@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { getStorage, ref as storageRef, listAll, getDownloadURL } from "firebase/storage"
+import loadingIcon from "../../assets/loadingIcon.png"
 import "./recentPictures.css"
 
 export const RecentPictures = (props) => {
@@ -69,7 +70,7 @@ const ImageExample = (props) => {
 const Loading = () => (
   <img 
     className="loading-icon"
-    src="https://www.freeiconspng.com/uploads/load-icon-png-8.png"
+    src={loadingIcon}
     alt="Loading" 
   />
 )

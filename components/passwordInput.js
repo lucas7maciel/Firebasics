@@ -15,6 +15,7 @@ export const PasswordInput = (props) => {
         onBlur={() => setOnFocus(false)}
         placeholder={props.placeHolder || null}
         value={props.Value || ""} 
+        onKeyDown={props.onKeyDown || null} 
         onChange={props.changeValue ? 
           evt => props.changeValue(evt.target.value) : null
         }

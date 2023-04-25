@@ -10,14 +10,15 @@ import noPicture from "../../assets/no_picture.jpg"
 import "./page.css"
 
 export const Profile = () => {
+  const [message, setMessage] = useState("Welcome to your profile page")
   const [user, setUser] = useState(getAuth().currentUser)
 
+  //user information displayed on the screen
   const [infoLoaded, setInfoLoaded] = useState(false)
   const [email, setEmail] = useState("")
   const [displayName, setDisplayName] = useState("")
   const [photoUrl, setPhotoUrl] = useState("")
   const [emailVerified, setEmailVerified] = useState(false)
-  const [message, setMessage] = useState("Welcome to your profile page")
 
   //window pop up
   const [windowContent, setWindowContent] = useState()
@@ -103,24 +104,30 @@ export const Profile = () => {
       <hr className="mainHr" />
 
       <div className="options">
-        <button 
-          type="button" 
-          onClick={() => 
-          setWindowPopUp(<AlterName />)}
-          >Alter Name
-        </button>
-
-        <button 
-          type="button"
-          onClick={() => setWindowPopUp(<AlterPicture pictureUrl={photoUrl} email={email} />)}
-          >Alter Picture
-        </button>
-
-        <button 
-          type="button" 
-          onClick={() => setWindowPopUp(<AlterPassword  />)}
-          >Alter Password
-        </button>
+        <div className="option">
+          <button 
+            type="button" 
+            onClick={() => 
+            setWindowPopUp(<AlterName />)}
+            >Alter Name
+          </button>
+        </div>
+        
+        <div className="option">
+          <button 
+            type="button"
+            onClick={() => setWindowPopUp(<AlterPicture pictureUrl={photoUrl} email={email} />)}
+            >Alter Picture
+          </button>
+        </div>
+        
+        <div className="option">
+          <button 
+            type="button" 
+            onClick={() => setWindowPopUp(<AlterPassword  />)}
+            >Alter Password
+          </button>
+        </div>
       </div>
 
       <p className="message">{message}</p>

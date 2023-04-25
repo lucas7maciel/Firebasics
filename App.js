@@ -5,8 +5,13 @@ import {SignIn} from './pages/signIn/page'
 import {SignUp} from './pages/signUp/page'
 import {Profile} from './pages/profile/page'
 import {RecoverPasw} from './pages/recoverPasw/page'
+import { useEffect } from 'react'
 
 export default function App() {
+  useEffect(() => {
+    document.title = "Firebasics"
+  }, [])
+
   return (
     <Router>
         <Routes>
