@@ -11,8 +11,9 @@ export const AlterPassword = () => {
 
   async function updatePassw() {
     const auth = getAuth()
+    const conditionsOk = await checkConditions(auth.currentUser)
 
-    if (!checkConditions(auth.currentUser.email)) return
+    if (!conditionsOk) return
 
     setMessage("Changing password")
 
@@ -25,12 +26,12 @@ export const AlterPassword = () => {
       })
   }
 
-  async function checkConditions(email) {
-    const credential = EmailAuthProvider.credential(email, oldPassw)
+  async function checkConditions(currentUser) {
+    const credential = EmailAuthProvider.credential(currentUser.email, oldPassw)
     let conditionsOk = false
     let correctPassw = false
 
-    await reauthenticateWithCredential(auth.currentUser, credential)
+    await reauthenticateWithCredential(currentUser, credential)
       .then(() => {
         correctPassw = true
       })
