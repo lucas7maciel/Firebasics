@@ -1,15 +1,25 @@
 import closeIcon from "../assets/closeIcon.png"
 import "./windowPopUp.css"
 
-export const WindowPopUp = (props) => props.active ? (
-  <div className="background">
+export const WindowPopUp = (props) => {
+  function close() {
+    props.setActive(() => false)
+  }
+
+  return props.active ? (
+    <>
+    <div className="background-shadow"
+      onClick={() => close()}
+    />
+  
     <div className="window">
       <img className="close-icon"
         src={closeIcon}
-        onClick={() => props.setActive(() => false)}
+        onClick={() => close()}
       />
 
       {props.content}
-  </div>
-  </div>
-) : null
+    </div>
+    </>
+  ) : null
+}

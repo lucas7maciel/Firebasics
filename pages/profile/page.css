@@ -23,16 +23,22 @@
   height: 150px;
 }
 
+.profile-data .aboutMe {
+  max-width: 350px;
+}
+
 .options {
-  width: 65%;
+  width: 80%;
   margin: 0 auto;
 
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .options .option {
-  flex: 1;
+  margin-left: 5px;
+  margin-right: 5px;
   text-align: center;
 }
 
@@ -45,6 +51,15 @@
 .email-validated {
   font-weight: bold;
   color: green;
+}
+
+/*alterDescription*/
+.alter-description {
+  width: 230px;
+}
+
+.alter-description .about-me {
+  width: 210px;
 }
 
 /*alterName*/
@@ -74,6 +89,7 @@
 
   display: flex;
   flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 

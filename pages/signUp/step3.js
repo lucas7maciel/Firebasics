@@ -1,6 +1,7 @@
 import { Component } from "react"
 import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
-import { ref as storageRef, uploadBytes, uploadString, getDownloadURL, getStorage} from "firebase/storage"
+import { ref as storageRef, uploadBytes, getDownloadURL} from "firebase/storage"
+import {doc, getFirestore, setDoc} from "firebase/firestore"
 
 export class Step3 extends Component {
   constructor(props) {
@@ -23,6 +24,10 @@ export class Step3 extends Component {
       .then(async () => {
         if (this.user.displayName || this.user.picture) {
           await this.updateData()
+        }
+
+        if (this.user.aboutMe) {
+          await this.uploadDescription()
         }
 
         this.setState({message: "Account ready to use"})
@@ -53,10 +58,6 @@ export class Step3 extends Component {
         this.setState({message: "Failed to update data"})
         this.props.setMessage(error.message)
       })
-
-    if (this.user.aboutMe) {
-      await this.uploadDescription()
-    }
   }
 
   async getProfilePic() {
@@ -82,14 +83,15 @@ export class Step3 extends Component {
   }
 
   async uploadDescription() {
-    const storageRef = storageRef(getStorage(), `users/${this.user.email}/about_me.txt`)
+    const docRef = doc(getFirestore(), `about-me/${this.user.email}`)
+    const docData = {aboutMe: this.user.aboutMe}
 
-    await uploadString(storageRef, this.user.aboutMe)
+    await setDoc(docRef, docData)
       .then(() => {
-        this.setState({message: "'About Me' added"})
+        this.setState({message: "'About Me' uploaded"})
       })
       .catch(error => {
-        this.setState({message: "Failed to add 'About Me'"})
+        this.setState({message: "Error uploading 'About Me'"})
         this.props.setMessage(error.message)
       })
   }

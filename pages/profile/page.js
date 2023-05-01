@@ -8,6 +8,8 @@ import VerifyEmail from "./verifyEmail";
 import {WindowPopUp} from "../../components/windowPopUp";
 import noPicture from "../../assets/no_picture.jpg"
 import "./page.css"
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { AlterDescription } from "./alterDescription";
 
 export const Profile = () => {
   const [message, setMessage] = useState("Welcome to your profile page")
@@ -19,6 +21,7 @@ export const Profile = () => {
   const [displayName, setDisplayName] = useState("")
   const [photoUrl, setPhotoUrl] = useState("")
   const [emailVerified, setEmailVerified] = useState(false)
+  const [aboutMe, setAboutMe] = useState("")
 
   //window pop up
   const [windowContent, setWindowContent] = useState()
@@ -53,23 +56,32 @@ export const Profile = () => {
   }, [windowActive])
 
   function loadInfo() {
+    getAboutMe()
     setEmailVerified(user.emailVerified)
     setEmail(user.email)
     setPhotoUrl(user.photoURL)
     setDisplayName(user.displayName || "(No Name)")
-    //getDescription() working on this
 
     setInfoLoaded(true)
   }
 
-  function signOut() {
-    window.localStorage.removeItem("keepLogged")
-    navigate("/")
+  async function getAboutMe() {
+    const docRef = doc(getFirestore(), "about-me", user.email)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      setAboutMe(docSnap.data().aboutMe)
+    }
   }
 
   function setWindowPopUp(content) {
     setWindowContent(() => content)
     setWindowActive(() => true)
+  }
+
+  function signOut() {
+    window.localStorage.removeItem("keepLogged")
+    navigate("/")
   }
 
   return (
@@ -94,7 +106,9 @@ export const Profile = () => {
           alt="Profile picture" 
         />
         <h4>{displayName}</h4>
-        <h4>{email}</h4>
+        <div className="aboutMe">
+          <span>{aboutMe || "(No 'About Me')"}</span>
+        </div>
         <VerifyEmail 
           verified={emailVerified}
           setMessage={setMessage}
@@ -104,6 +118,15 @@ export const Profile = () => {
       <hr className="mainHr" />
 
       <div className="options">
+        <div className="option">
+          <button 
+            type="button" 
+            onClick={() => 
+            setWindowPopUp(<AlterDescription email={email} />)}
+            >Alter Description
+          </button>
+        </div>
+
         <div className="option">
           <button 
             type="button" 

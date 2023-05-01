@@ -40,6 +40,7 @@ export class Step2 extends Component {
         <label className="aboutMe-label" htmlFor="aboutMe">About me</label><br/>
         <textarea 
           rows="4" columns="25" 
+          maxLength={150}
           value={this.state.aboutMe} 
           onChange={evt => this.setState({aboutMe: evt.target.value})} 
         />
