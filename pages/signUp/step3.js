@@ -1,6 +1,6 @@
 import { Component } from "react"
 import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
-import { ref as storageRef, uploadBytes, getDownloadURL} from "firebase/storage"
+import { ref as storageRef, uploadBytes, getDownloadURL, getStorage} from "firebase/storage"
 import {doc, getFirestore, setDoc} from "firebase/firestore"
 
 export class Step3 extends Component {
@@ -19,7 +19,7 @@ export class Step3 extends Component {
 
   createUser() {
     this.setState({message: "Creating user..."})
-
+    console.log(this.user)
     createUserWithEmailAndPassword(getAuth(), this.user.email, this.user.password)
       .then(async () => {
         if (this.user.displayName || this.user.picture) {
@@ -30,10 +30,12 @@ export class Step3 extends Component {
           await this.uploadDescription()
         }
 
+        await this.uploadAccountInfo()
+
         this.setState({message: "Account ready to use"})
         this.props.setMessage("Go back to the login page to sign in")
       })
-      .catch((error) => {
+      .catch(error => {
         this.setState({message: "Error creating user..."})
         this.props.setMessage(error.message)
       });
@@ -61,7 +63,7 @@ export class Step3 extends Component {
   }
 
   async getProfilePic() {
-    const imageRef = storageRef(storage, `users/${user.email}/profile_pictures/1`)
+    const imageRef = storageRef(getStorage(), `users/${this.user.email}/profile_pictures/1`)
     let imageUrl
 
     await uploadBytes(imageRef, this.user.picture)
@@ -92,6 +94,24 @@ export class Step3 extends Component {
       })
       .catch(error => {
         this.setState({message: "Error uploading 'About Me'"})
+        this.props.setMessage(error.message)
+      })
+  }
+
+  async uploadAccountInfo() {
+    const docRef = doc(getFirestore(), `account-data/${this.user.email}`)
+    const docData = {
+      loggedTimes: 0,
+      lastLogin: "",
+      accountCreatedIn: new Date().toJSON().slice(0, 10)
+    }
+
+    await setDoc(docRef, docData)
+      .then(() => {
+        this.setState({message: "Account info uploaded"})
+      })
+      .catch(error => {
+        this.setState({message: "Error uploading account info"})
         this.props.setMessage(error.message)
       })
   }

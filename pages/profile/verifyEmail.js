@@ -14,6 +14,7 @@ const VerifyEmail = (props) => {
   return props.verified ? 
   (<p className="email-validated">Email validated</p>) : 
   (<button 
+    className="verify-email"
     type="button" 
     onClick={() => verifyEmail()}
     >Verify email

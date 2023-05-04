@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { AlterPicture } from "./alterPicture";
 import { AlterPassword } from "./alterPassword";
 import { AlterName } from "./alterName";
+import { AccountInfo } from "./accountInfo";
 import VerifyEmail from "./verifyEmail";
 import {WindowPopUp} from "../../components/windowPopUp";
 import noPicture from "../../assets/no_picture.jpg"
 import "./page.css"
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { AlterDescription } from "./alterDescription";
 
 export const Profile = () => {
@@ -21,6 +22,7 @@ export const Profile = () => {
   const [displayName, setDisplayName] = useState("")
   const [photoUrl, setPhotoUrl] = useState("")
   const [emailVerified, setEmailVerified] = useState(false)
+  const [accountInfo, setAccountInfo] = useState({})
   const [aboutMe, setAboutMe] = useState("")
 
   //window pop up
@@ -37,6 +39,7 @@ export const Profile = () => {
     //If the user has checked the "Keep logged" option 
     //and has entered the site again
     if (!user) return
+    console.log(user)
 
     const userLogged = localStorage.getItem("keepLogged")
 
@@ -55,12 +58,15 @@ export const Profile = () => {
     }
   }, [windowActive])
 
-  function loadInfo() {
-    getAboutMe()
+  async function loadInfo() {
     setEmailVerified(user.emailVerified)
     setEmail(user.email)
     setPhotoUrl(user.photoURL)
     setDisplayName(user.displayName || "(No Name)")
+
+    getAboutMe()
+    await getAccountInfo()
+    registerLogin()
 
     setInfoLoaded(true)
   }
@@ -72,6 +78,40 @@ export const Profile = () => {
     if (docSnap.exists()) {
       setAboutMe(docSnap.data().aboutMe)
     }
+  }
+
+  async function getAccountInfo() {
+    const docRef = doc(getFirestore(), "account-data", user.email)
+    const docSnap = await getDoc(docRef)
+
+    if (docSnap.exists()) {
+      setAccountInfo(docSnap.data())
+      return
+    }
+
+    const docData = {
+      loggedTimes: 1,
+      lastLogin: new Date().toJSON().slice(0, 10),
+      accountCreatedIn: "No Info"
+    }
+
+    setDoc(docRef, docData)
+  }
+
+  async function registerLogin() {
+    const docRef = doc(getFirestore(), "account-data", user.email)
+    const docSnap = await getDoc(docRef)
+
+    if (!docSnap.exists()) return
+
+    let loggedTimes = docSnap.data().loggedTimes
+
+    updateDoc(docRef, {
+      loggedTimes: loggedTimes + 1,
+      lastLogin: new Date().toJSON().slice(0, 10)
+    }).catch(error => {
+      setMessage(error.message)
+    })
   }
 
   function setWindowPopUp(content) {
@@ -103,16 +143,17 @@ export const Profile = () => {
         <h1>Profile Page</h1>
         <img 
           src={photoUrl || noPicture} 
+          onClick={() => setWindowPopUp(<AccountInfo info={accountInfo} />)}
           alt="Profile picture" 
         />
         <h4>{displayName}</h4>
-        <div className="aboutMe">
-          <span>{aboutMe || "(No 'About Me')"}</span>
-        </div>
         <VerifyEmail 
           verified={emailVerified}
           setMessage={setMessage}
         />
+        <div className="aboutMe">
+          <span>{aboutMe || "(No 'About Me')"}</span>
+        </div>
       </div>
 
       <hr className="mainHr" />

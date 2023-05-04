@@ -96,3 +96,8 @@
 .alter-picture hr {
   width: 100%;
 }
+
+/*verifyEmail*/
+.verify-email {
+  margin-bottom: 15px;
+}
