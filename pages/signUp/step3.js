@@ -103,7 +103,8 @@ export class Step3 extends Component {
     const docData = {
       loggedTimes: 0,
       lastLogin: "",
-      accountCreatedIn: new Date().toJSON().slice(0, 10)
+      createdAt: new Date().toJSON().slice(0, 10),
+      lastPicture: 0
     }
 
     await setDoc(docRef, docData)

@@ -21,6 +21,8 @@
   object-fit: cover;
   width: 150px;
   height: 150px;
+
+  cursor: pointer;
 }
 
 .profile-data .aboutMe {

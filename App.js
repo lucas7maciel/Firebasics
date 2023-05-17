@@ -6,6 +6,7 @@ import {SignUp} from './pages/signUp/page'
 import {Profile} from './pages/profile/page'
 import {RecoverPasw} from './pages/recoverPasw/page'
 import { useEffect } from 'react'
+import { Accounts } from './pages/accounts/page'
 
 export default function App() {
   useEffect(() => {
@@ -15,10 +16,11 @@ export default function App() {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<SignIn />}></Route>
-          <Route path="/signUp" element={<SignUp />}></Route>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/recoverPasw" element={<RecoverPasw />}></Route>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/recoverPasw" element={<RecoverPasw />} />
+          <Route path="/accounts" element={<Accounts />} />
         </Routes>
     </Router>
   );

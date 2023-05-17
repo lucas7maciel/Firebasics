@@ -20,7 +20,7 @@ export const AccountInfo = (props) => {
 
       <div>
         <p style={{fontWeight: "bold"}}>Created At</p>
-        <span>{props.info.accountCreatedIn || "No info"}</span>
+        <span>{props.info.createdAt || "No info"}</span>
       </div>
     </div>
   )

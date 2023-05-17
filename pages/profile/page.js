@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { AlterDescription } from "./alterDescription";
 import { useNavigate } from "react-router-dom";
 import { AlterPicture } from "./alterPicture";
 import { AlterPassword } from "./alterPassword";
@@ -9,8 +11,6 @@ import VerifyEmail from "./verifyEmail";
 import {WindowPopUp} from "../../components/windowPopUp";
 import noPicture from "../../assets/no_picture.jpg"
 import "./page.css"
-import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
-import { AlterDescription } from "./alterDescription";
 
 export const Profile = () => {
   const [message, setMessage] = useState("Welcome to your profile page")
@@ -39,7 +39,6 @@ export const Profile = () => {
     //If the user has checked the "Keep logged" option 
     //and has entered the site again
     if (!user) return
-    console.log(user)
 
     const userLogged = localStorage.getItem("keepLogged")
 
@@ -47,6 +46,7 @@ export const Profile = () => {
       signOut()
     } else if (!infoLoaded) {
       loadInfo()
+      registerLogin()
     }
   }, [user])
 
@@ -66,7 +66,6 @@ export const Profile = () => {
 
     getAboutMe()
     await getAccountInfo()
-    registerLogin()
 
     setInfoLoaded(true)
   }
@@ -89,13 +88,20 @@ export const Profile = () => {
       return
     }
 
+    //if the user does not have their information saved, they are registered in this function
+    let createdAt = new Date(parseInt(user.metadata.createdAt))
+    createdAt = createdAt.toISOString().slice(0, 10);
+
+    let lastLogin = new Date(parseInt(user.metadata.lastLoginAt))
+    lastLogin = lastLogin.toISOString().slice(0, 10)
+
     const docData = {
       loggedTimes: 1,
-      lastLogin: new Date().toJSON().slice(0, 10),
-      accountCreatedIn: "No Info"
+      lastLogin: lastLogin,
+      createdAt: createdAt
     }
 
-    setDoc(docRef, docData)
+    await setDoc(docRef, docData)
   }
 
   async function registerLogin() {

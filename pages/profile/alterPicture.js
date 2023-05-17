@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { getStorage, ref as storageRef, listAll, uploadBytes, getDownloadURL } from "firebase/storage"
+import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import { updateProfile, getAuth } from "firebase/auth"
 
 import { RecentPictures } from "./recentPictures.js"
@@ -7,6 +8,7 @@ import { ImagePicker } from "../../components/imagePicker"
 
 export const AlterPicture = (props) => {
   const [newPicture, setNewPicture] = useState(props.pictureUrl)
+  const [pictureNumber, setPictureNumber] = useState(0)
   const [message, setMessage] = useState("Click on the image to choose a local file")
 
   async function updatePicture() {
@@ -28,6 +30,10 @@ export const AlterPicture = (props) => {
     updateProfile(getAuth().currentUser, {photoURL: newPhotoURL})
       .then(() => {
         setMessage("Image changed successfully")
+
+        //saves if the new image was uploaded or taken from "Recent Pictures"
+        const docRef = doc(getFirestore(), "account-data", props.email)
+        setDoc(docRef, {lastPicture: pictureNumber}, {merge: true})
       })
       .catch(error => {
         setMessage(error.message)
@@ -36,6 +42,7 @@ export const AlterPicture = (props) => {
 
   async function uploadPicture() {
     setMessage("Uploading picture")
+    setPictureNumber(0)
 
     //check how many images you have
     const folderRef = storageRef(getStorage(), `users/${props.email}/profile_pictures`)
@@ -80,6 +87,7 @@ export const AlterPicture = (props) => {
       <RecentPictures 
         email={props.email} 
         changePicture={setNewPicture} 
+        changePicNumber={setPictureNumber} 
         setMessage={setMessage} 
       />
       <hr/>
