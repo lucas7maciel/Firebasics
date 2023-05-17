@@ -24,7 +24,6 @@ export const RecentPictures = (props) => {
 
     if (docSnap.exists()) {
       lastPic = docSnap.data().lastPicture
-      console.log(lastPic)
     }
 
     listAll(folderRef)

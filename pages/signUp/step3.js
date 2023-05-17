@@ -19,7 +19,7 @@ export class Step3 extends Component {
 
   createUser() {
     this.setState({message: "Creating user..."})
-    console.log(this.user)
+    
     createUserWithEmailAndPassword(getAuth(), this.user.email, this.user.password)
       .then(async () => {
         if (this.user.displayName || this.user.picture) {
