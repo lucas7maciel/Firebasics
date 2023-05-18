@@ -1,4 +1,5 @@
 import "./account.css"
+import noPicture from "../../assets/no_picture.jpg"
 
 export const Account = (props) => {
   return (
@@ -6,7 +7,7 @@ export const Account = (props) => {
       <div className="picture-container">
         <img
           className="profile-picture" 
-          src={props.picture} 
+          src={props.picture || noPicture} 
           alt="Profile Picture"
         />
       </div>
