@@ -33,7 +33,7 @@ export const AlterPicture = (props) => {
 
         //saves if the new image was uploaded or taken from "Recent Pictures"
         const docRef = doc(getFirestore(), "account-data", props.email)
-        setDoc(docRef, {lastPicture: pictureNumber}, {merge: true})
+        setDoc(docRef, {lastPicture: pictureNumber, pictureUrl: newPhotoURL}, {merge: true})
       })
       .catch(error => {
         setMessage(error.message)

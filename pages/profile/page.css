@@ -99,6 +99,11 @@
   width: 100%;
 }
 
+/*alterDescription*/
+.alter-description textarea {
+  resize: none;
+}
+
 /*verifyEmail*/
 .verify-email {
   margin-bottom: 15px;

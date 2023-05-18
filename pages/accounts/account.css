@@ -1,0 +1,35 @@
+.account {
+  display: flex;
+
+  width: 320px;
+  height: 100px;
+  padding: 10px 20px;
+
+  border: solid;
+  border-radius: 25px;
+}
+
+.account .text {
+  text-align: start;
+}
+
+.account .picture-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account .profile-picture {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+
+  margin-right: 15px;
+
+  border-radius: 50%;
+}
+
+.account .name {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}

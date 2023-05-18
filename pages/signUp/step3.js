@@ -9,7 +9,8 @@ export class Step3 extends Component {
 
     this.user = props.user
     this.state = {
-      message: ""
+      message: "",
+      pictureUrl: ""
     }
   }
 
@@ -70,7 +71,10 @@ export class Step3 extends Component {
       .then(async () => {
 
         await getDownloadURL(imageRef)
-          .then(url => imageUrl = url)
+          .then(url => {
+            imageUrl = url
+            this.setState({pictureUrl: imageUrl})
+          })
           .catch(error => {
             this.setState({message: "Error updating image..."})
             this.props.setMessage(error.message)
@@ -81,12 +85,17 @@ export class Step3 extends Component {
         this.props.setMessage(error.message)
       })
 
+    console.log(this.state)
+    console.log(imageUrl)
     return imageUrl
   }
 
   async uploadDescription() {
     const docRef = doc(getFirestore(), `about-me/${this.user.email}`)
-    const docData = {aboutMe: this.user.aboutMe}
+    const docData = {
+      user: [this.user.email, this.user.displayName],
+      aboutMe: this.user.aboutMe
+    }
 
     await setDoc(docRef, docData)
       .then(() => {
@@ -99,13 +108,17 @@ export class Step3 extends Component {
   }
 
   async uploadAccountInfo() {
+    console.log("A")
     const docRef = doc(getFirestore(), `account-data/${this.user.email}`)
     const docData = {
       loggedTimes: 0,
       lastLogin: "",
       createdAt: new Date().toJSON().slice(0, 10),
-      lastPicture: 0
+      lastPicture: 0,
+      pictureUrl: this.state.pictureUrl
     }
+
+    console.log(docData)
 
     await setDoc(docRef, docData)
       .then(() => {

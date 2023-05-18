@@ -1,0 +1,51 @@
+
+.content .accounts-page {
+  width: 80%;
+  min-height: 80%;
+  margin: 10px 0px;
+}
+
+.title {
+  text-align: center;
+}
+
+.accounts {
+  width: 90%;
+
+  text-align: center;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.account {
+  margin: 5px 7px;
+  flex: 1 0 20%;
+}
+
+.no-users {
+  flex: 1;
+}
+
+hr {
+  margin-top: 30px;
+  width: 80%;
+}
+
+.search {
+  width: 40%;
+
+  display: flex;
+}
+
+.search input {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+  border-right: none;
+}
+
+.search button {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}

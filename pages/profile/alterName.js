@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { getAuth, updateProfile } from "firebase/auth"
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 export const AlterName = () => {
   const [message, setMessage] = useState("Enter the new name in the input")
@@ -10,9 +11,19 @@ export const AlterName = () => {
 
     setMessage("Changing name")
 
-    updateProfile(getAuth().currentUser, {displayName: displayName})
+    const user = getAuth().currentUser
+
+    updateProfile(user, {displayName: displayName})
       .then(() => {
         setMessage("Name has been changed")
+
+        //update display name at firestore
+        const docRef = doc(getFirestore(), "about-me", user.email)
+        const docData = {
+          user: [user.email, displayName]
+        }
+
+        setDoc(docRef, docData, {merge: true})
       })
       .catch(error => {
         setMessage(`Error while changing name:\n${error.message}`)

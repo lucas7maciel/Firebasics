@@ -9,7 +9,7 @@ export const AlterDescription = (props) => {
     setMessage("Changing description...")
     const docRef = doc(getFirestore(), `about-me/${props.email}`)
 
-    setDoc(docRef, {aboutMe})
+    setDoc(docRef, {aboutMe}, {merge: true})
       .then(() => {
         setMessage("Description changed!")
       })
