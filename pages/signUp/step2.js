@@ -37,8 +37,9 @@ export class Step2 extends Component {
 
         <hr />
 
-        <label className="aboutMe-label" htmlFor="aboutMe">About me</label><br/>
+        <p className="aboutMe-label">About Me</p>
         <textarea 
+          className="aboutMe-form" 
           rows="4" columns="25" 
           maxLength={150}
           value={this.state.aboutMe} 

@@ -1,14 +1,16 @@
 import { initializeApp } from "firebase/app";
+import {API_KEY, AUTH_DOMAIN, DATABASE_URL, PROJECT_ID, STORAGE_BUCKET, 
+        MESSAGING_SENDER_ID, APP_ID, MEASUREMENT_ID} from "@env";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBlmj9qe_8oZ9gkcPbL-qkjS6M2XEvX1_w",
-  authDomain: "notepad-f91f1.firebaseapp.com",
-  databaseURL: "https://notepad-f91f1-default-rtdb.firebaseio.com",
-  projectId: "notepad-f91f1",
-  storageBucket: "notepad-f91f1.appspot.com",
-  messagingSenderId: "379731434844",
-  appId: "1:379731434844:web:fd1ace3e783443da0cb599",
-  measurementId: "G-V5FZL8T98Y"
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: DATABASE_URL,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID
 };
 
 initializeApp(firebaseConfig)

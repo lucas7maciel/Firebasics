@@ -23,5 +23,12 @@
 
 /*step 2*/
 .aboutMe-label {
-  padding-top: 50px;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  
+  text-align: center;
+}
+
+.aboutMe-form {
+  resize: none;
 }

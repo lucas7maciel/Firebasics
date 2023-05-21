@@ -31,7 +31,7 @@ export const AlterName = () => {
   }
 
   function checkName() {
-    if (!displayName) {
+    if (displayName) {
       setMessage("Empty name")
       return false
     }
@@ -42,7 +42,10 @@ export const AlterName = () => {
   return (
     <div className="alter-name center">
       <h3>Change Name</h3>
-      <input value={displayName} onChange={evt => setDisplayName(evt.target.value)} />
+      <input 
+        value={displayName} 
+        onChange={evt => setDisplayName(evt.target.value)} 
+      />
       <p className="message">{message}</p>
       <button type="button" onClick={() => changeName()}>Alter Name</button>
     </div>

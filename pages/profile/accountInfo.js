@@ -1,6 +1,5 @@
 
 export const AccountInfo = (props) => {
-  console.log(props.info)
   return (
     <div className="account-info center">
       <h3>Account Info</h3>

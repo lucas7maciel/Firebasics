@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { formatCreatedAt, formatLastLogin } from "../../functions/formatDates";
+
 import { AlterDescription } from "./alterDescription";
 import { useNavigate } from "react-router-dom";
 import { AlterPicture } from "./alterPicture";
@@ -9,6 +11,7 @@ import { AlterName } from "./alterName";
 import { AccountInfo } from "./accountInfo";
 import VerifyEmail from "./verifyEmail";
 import {WindowPopUp} from "../../components/windowPopUp";
+
 import noPicture from "../../assets/no_picture.jpg"
 import "./page.css"
 
@@ -84,7 +87,7 @@ export const Profile = () => {
     
     const data = docSnap.data()
 
-    //"Last Login" is caught in registerLogin()
+    //"Last Login" is read on registerLogin()
     //so it only changes when the session ends
     setAboutMe(data.aboutMe)
     setLoggedTimes(data.loggedTimes)
@@ -94,38 +97,35 @@ export const Profile = () => {
   async function registerLogin() {
     const docRef = doc(getFirestore(), "account-data", user.email)
     const docSnap = await getDoc(docRef)
+    const docData = docSnap.data()
 
-    //pegando o ultimo login antigo pra exibir
-    if (docSnap.exists()) {
-      setLastLogin(docSnap.data().lastLogin)
-    } else {
-      let last = new Date(parseInt(user.metadata.lastLoginAt))
-      last = `${last.getFullYear()}/${last.getMonth()}/${last.getDate()} ${last.getHours()}:${last.getMinutes()}:${last.getSeconds()}`
-      
-      setLastLogin(last)
+    if (!docData?.loggedTimes || !docData?.lastLogin) {
+      uploadAccountInfo()
+      return
     }
+  
+    const loggedTimes = ++docData().loggedTimes
+    const lastLogin = formatDates(new Date(), "lastLogin")
 
-    let loggedTimes = docSnap.data()?.loggedTimes || 0
+    updateDoc(docRef, {loggedTimes, lastLogin})
+    setLastLogin(docData.lastLogin)
+  }
 
-    let newlast = new Date()
-    newlast = `${newlast.getFullYear()}/${newlast.getMonth()}/${newlast.getDate()} ` +
-              `${newlast.getHours()}:${newlast.getMinutes()}:${newlast.getSeconds()}`
+  function uploadAccountInfo() {
+    //gets the last login value from Firebase's user data
+    const lastTimeStamp = parseInt(user.metadata.lastLoginAt)
+    const lastLogin = formatLastLogin(new Date(lastTimeStamp))
 
+    setLastLogin(lastLogin)
 
-    let createdAt = docSnap.data()?.createdAt
+    //gets user data and stores it
+    const createdAtTsp = parseInt(user.metadata.createdAt)
+    const createdAt = formatCreatedAt(new Date(createdAtTsp))
 
-    if (createdAt) {
-      //caso o usuário não tenha o registro de criação
-      let date = parseInt(user.metadata.createdAt)
-      date = new Date(date)
-      
-      createdAt = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}` 
-    }
-
-    let newData = {
-      loggedTimes: loggedTimes + 1,
-      lastLogin: newlast,
-      createdAt
+    const newData = {
+      loggedTimes: 1,
+      lastLogin: formatLastLogin(new Date()),
+      createdAt 
     }
 
     setDoc(docRef, newData, {merge: true})

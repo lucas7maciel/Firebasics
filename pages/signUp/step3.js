@@ -85,13 +85,13 @@ export class Step3 extends Component {
   async uploadAccountInfo() {
     const docRef = doc(getFirestore(), `account-data/${this.user.email}`)
 
-    const date = new Date()
-    const now = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}` 
+    const now = new Date()
+    const createdAt = `${now.getFullYear()}/${now.getMonth()}/${now.getDate()}` 
 
     const docData = {
       loggedTimes: 0,
       lastLogin: "",
-      createdAt: now,
+      createdAt,
       lastPicture: 0,
       aboutMe: this.user.aboutMe
     }
