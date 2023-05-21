@@ -2,7 +2,7 @@
 
 ## HOW TO EXECUTE
 - Create a project in Firebase
-- Enable the use of Firestore and Storage functions
+- Enable the use of Firestore and Storage
 
 ### OPTION 1
 - Create an .env file and put the attributes of your firebaseConfig variable there, according to the names shown in the print, in "./functions/firebase.js"
