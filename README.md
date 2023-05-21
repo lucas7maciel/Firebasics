@@ -11,7 +11,7 @@
 
 ### OPTION 2
 - Replace the firebaseConfig variable with your own, and remove the import of environment variables, on line 2 of "./functions/firebase.js"
--
+
 ![image](https://github.com/lucas7maciel/Firebasics/assets/80663597/133950da-141a-4185-bb72-13aaecbf395e)
 
 ## INTRODUCTION
