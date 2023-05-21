@@ -9,8 +9,7 @@ export class Step3 extends Component {
 
     this.user = props.user
     this.state = {
-      message: "",
-      pictureUrl: ""
+      message: ""
     }
   }
 
@@ -25,10 +24,6 @@ export class Step3 extends Component {
       .then(async () => {
         if (this.user.displayName || this.user.picture) {
           await this.updateData()
-        }
-
-        if (this.user.aboutMe) {
-          await this.uploadDescription()
         }
 
         await this.uploadAccountInfo()
@@ -73,7 +68,6 @@ export class Step3 extends Component {
         await getDownloadURL(imageRef)
           .then(url => {
             imageUrl = url
-            this.setState({pictureUrl: imageUrl})
           })
           .catch(error => {
             this.setState({message: "Error updating image..."})
@@ -85,40 +79,22 @@ export class Step3 extends Component {
         this.props.setMessage(error.message)
       })
 
-    console.log(this.state)
-    console.log(imageUrl)
     return imageUrl
   }
 
-  async uploadDescription() {
-    const docRef = doc(getFirestore(), `about-me/${this.user.email}`)
-    const docData = {
-      user: [this.user.email, this.user.displayName],
-      aboutMe: this.user.aboutMe
-    }
-
-    await setDoc(docRef, docData)
-      .then(() => {
-        this.setState({message: "'About Me' uploaded"})
-      })
-      .catch(error => {
-        this.setState({message: "Error uploading 'About Me'"})
-        this.props.setMessage(error.message)
-      })
-  }
-
   async uploadAccountInfo() {
-    console.log("A")
     const docRef = doc(getFirestore(), `account-data/${this.user.email}`)
+
+    const date = new Date()
+    const now = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}` 
+
     const docData = {
       loggedTimes: 0,
       lastLogin: "",
-      createdAt: new Date().toJSON().slice(0, 10),
+      createdAt: now,
       lastPicture: 0,
-      pictureUrl: this.state.pictureUrl
+      aboutMe: this.user.aboutMe
     }
-
-    console.log(docData)
 
     await setDoc(docRef, docData)
       .then(() => {

@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { emailIsValid } from "../../functions/emailIsValid";
 import {PasswordInput} from "../../components/passwordInput";
-import "../../functions/styles.css"
+import Logo from "../../assets/logo.png"
 import "./page.css"
 
 export const SignIn = () => {
@@ -58,7 +58,7 @@ export const SignIn = () => {
     <div className="page">
 
     <div className="logo">
-      <img src="https://pic.onlinewebfonts.com/svg/img_337183.png" alt="Logo" />
+      <img src={Logo} alt="Logo" />
     </div>
 
     <div className="signIn content">

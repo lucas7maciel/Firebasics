@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom"
 import { Step1 } from "./step1"
 import { Step2 } from "./step2"
 import { Step3 } from "./step3"
-import "../../functions/styles.css"
 import "./steps.css"
 
 export const SignUp = () => {

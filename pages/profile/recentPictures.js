@@ -56,7 +56,7 @@ export const RecentPictures = (props) => {
         items.forEach((item) => {
           getDownloadURL(item)
             .then(url => {
-              setImagesList(imagesList => [...imagesList, {number: item.name, url: url}])
+              setImagesList(imagesList => [...imagesList, {index: item.name, url: url}])
             })
 
       })}).catch((error) => {
@@ -73,9 +73,9 @@ export const RecentPictures = (props) => {
         {imagesList.map((image, index) => (
           <ImageExample 
             imageURL={image.url} 
-            number={image.number} 
+            index={image.index} 
             changePicture={props.changePicture} 
-            changePicNumber={props.changePicNumber} 
+            changeLastPic={props.changeLastPic} 
             key={index} 
           />)
         )}
@@ -91,7 +91,7 @@ export const RecentPictures = (props) => {
 const ImageExample = (props) => {
   function changePicture() {
     props.changePicture(props.imageURL)
-    props.changePicNumber(parseInt(props.number))
+    props.changeLastPic(parseInt(props.index))
   }
 
   return (

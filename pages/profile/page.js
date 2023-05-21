@@ -18,11 +18,18 @@ export const Profile = () => {
 
   //user information displayed on the screen
   const [infoLoaded, setInfoLoaded] = useState(false)
+
   const [email, setEmail] = useState("")
   const [displayName, setDisplayName] = useState("")
   const [photoUrl, setPhotoUrl] = useState("")
   const [emailVerified, setEmailVerified] = useState(false)
-  const [accountInfo, setAccountInfo] = useState({})
+
+  const [loggedTimes, setLoggedTimes] = useState(0)
+  const [lastLogin, setLastLogin] = useState("")
+  const [createdAt, setCreatedAt] = useState("")
+
+  const accountInfo = {loggedTimes, lastLogin, createdAt }
+
   const [aboutMe, setAboutMe] = useState("")
 
   //window pop up
@@ -45,8 +52,8 @@ export const Profile = () => {
     if(userLogged && userLogged !== user.email) {
       signOut()
     } else if (!infoLoaded) {
-      loadInfo()
       registerLogin()
+        .then(() => loadInfo())
     }
   }, [user])
 
@@ -64,60 +71,67 @@ export const Profile = () => {
     setPhotoUrl(user.photoURL)
     setDisplayName(user.displayName || "(No Name)")
 
-    getAboutMe()
     await getAccountInfo()
 
     setInfoLoaded(true)
-  }
-
-  async function getAboutMe() {
-    const docRef = doc(getFirestore(), "about-me", user.email)
-    const docSnap = await getDoc(docRef)
-
-    if (docSnap.exists()) {
-      setAboutMe(docSnap.data().aboutMe)
-    }
   }
 
   async function getAccountInfo() {
     const docRef = doc(getFirestore(), "account-data", user.email)
     const docSnap = await getDoc(docRef)
 
-    if (docSnap.exists()) {
-      setAccountInfo(docSnap.data())
-      return
-    }
+    if (!docSnap.exists()) return
+    
+    const data = docSnap.data()
 
-    //if the user does not have their information saved, they are registered in this function
-    let createdAt = new Date(parseInt(user.metadata.createdAt))
-    createdAt = createdAt.toISOString().slice(0, 10);
-
-    let lastLogin = new Date(parseInt(user.metadata.lastLoginAt))
-    lastLogin = lastLogin.toISOString().slice(0, 10)
-
-    const docData = {
-      loggedTimes: 1,
-      lastLogin: lastLogin,
-      createdAt: createdAt
-    }
-
-    await setDoc(docRef, docData)
+    //"Last Login" is caught in registerLogin()
+    //so it only changes when the session ends
+    setAboutMe(data.aboutMe)
+    setLoggedTimes(data.loggedTimes)
+    setCreatedAt(data.createdAt)
   }
 
   async function registerLogin() {
     const docRef = doc(getFirestore(), "account-data", user.email)
     const docSnap = await getDoc(docRef)
 
-    if (!docSnap.exists()) return
+    //pegando o ultimo login antigo pra exibir
+    if (docSnap.exists()) {
+      setLastLogin(docSnap.data().lastLogin)
+    } else {
+      let last = new Date(parseInt(user.metadata.lastLoginAt))
+      last = `${last.getFullYear()}/${last.getMonth()}/${last.getDate()} ${last.getHours()}:${last.getMinutes()}:${last.getSeconds()}`
+      
+      setLastLogin(last)
+    }
 
-    let loggedTimes = docSnap.data().loggedTimes
+    let loggedTimes = docSnap.data()?.loggedTimes || 0
 
-    updateDoc(docRef, {
+    let newlast = new Date()
+    newlast = `${newlast.getFullYear()}/${newlast.getMonth()}/${newlast.getDate()} ` +
+              `${newlast.getHours()}:${newlast.getMinutes()}:${newlast.getSeconds()}`
+
+
+    let createdAt = docSnap.data()?.createdAt
+
+    if (createdAt) {
+      //caso o usuário não tenha o registro de criação
+      let date = parseInt(user.metadata.createdAt)
+      date = new Date(date)
+      
+      createdAt = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}` 
+    }
+
+    let newData = {
       loggedTimes: loggedTimes + 1,
-      lastLogin: new Date().toJSON().slice(0, 10)
-    }).catch(error => {
-      setMessage(error.message)
-    })
+      lastLogin: newlast,
+      createdAt
+    }
+
+    setDoc(docRef, newData, {merge: true})
+      .catch(error => {
+        setMessage(error.message)
+      })
   }
 
   function setWindowPopUp(content) {
@@ -139,6 +153,7 @@ export const Profile = () => {
           >Exit
       </button>
     <div className="content">
+      
       <WindowPopUp 
         content={windowContent} 
         active={windowActive} 
