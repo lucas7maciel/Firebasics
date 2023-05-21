@@ -3,6 +3,6 @@ export function formatCreatedAt(dt) {
 }
 
 export function formatLastLogin(dt) {
-  return `${dt.getFullYear()}/${dt.getMonth()}/${dt.getDate()} `
+  return `${dt.getFullYear()}/${dt.getMonth()}/${dt.getDate()} ` +
          `${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`
 }

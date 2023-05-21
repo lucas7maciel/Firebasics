@@ -2,6 +2,7 @@ import { Component } from "react"
 import { getAuth, updateProfile, createUserWithEmailAndPassword } from "firebase/auth"
 import { ref as storageRef, uploadBytes, getDownloadURL, getStorage} from "firebase/storage"
 import {doc, getFirestore, setDoc} from "firebase/firestore"
+import { formatCreatedAt } from "../../functions/formatDates"
 
 export class Step3 extends Component {
   constructor(props) {
@@ -85,13 +86,10 @@ export class Step3 extends Component {
   async uploadAccountInfo() {
     const docRef = doc(getFirestore(), `account-data/${this.user.email}`)
 
-    const now = new Date()
-    const createdAt = `${now.getFullYear()}/${now.getMonth()}/${now.getDate()}` 
-
     const docData = {
       loggedTimes: 0,
       lastLogin: "",
-      createdAt,
+      createdAt: formatCreatedAt(new Date()),
       lastPicture: 0,
       aboutMe: this.user.aboutMe
     }

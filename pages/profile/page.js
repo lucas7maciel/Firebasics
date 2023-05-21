@@ -104,8 +104,8 @@ export const Profile = () => {
       return
     }
   
-    const loggedTimes = ++docData().loggedTimes
-    const lastLogin = formatDates(new Date(), "lastLogin")
+    const loggedTimes = ++docData.loggedTimes
+    const lastLogin = formatLastLogin(new Date())
 
     updateDoc(docRef, {loggedTimes, lastLogin})
     setLastLogin(docData.lastLogin)
