@@ -1,18 +1,18 @@
 # Firebasics
 
-##HOW TO EXECUTE
+## HOW TO EXECUTE
 - Create a project in Firebase
 - Enable the use of Firestore and Storage functions
 
-###OPTION 1
+### OPTION 1
 - Create an .env file and put the attributes of your firebaseConfig variable there, according to the names shown in the print, in "./functions/firebase.js"
 ![image](https://github.com/lucas7maciel/Firebasics/assets/80663597/bf49898e-35d6-4f7e-a0ff-094606419ab4)
 
-###OPTION 2
+### OPTION 2
 - Replace the firebaseConfig variable with your own, and remove the import of environment variables, on line 2 of "./functions/firebase.js"
 ![image](https://github.com/lucas7maciel/Firebasics/assets/80663597/133950da-141a-4185-bb72-13aaecbf395e)
 
-##INTRODUCTION
+## INTRODUCTION
 This Web App, made in React, was made to show the basic functions of Firebase, such as registering user emails, verification and the use of Storage for user data.
 Soon I intend to use this project to improve my Frontend skills, adding more complexity to animations and styling, as well as creating some new functionality with Firebase Storage and JavaScript.
 
